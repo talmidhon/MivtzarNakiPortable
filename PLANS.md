@@ -1,5 +1,10 @@
 # תוכנית העבודה לקודקס
 
+### יעד הבדיקה החדש — 0.1.6
+
+build ללא אזהרות/שגיאות; dotnet test tests/MivtzarNaki.Tests/MivtzarNaki.Tests.csproj --nologo: 55/55 PASS. Package.ps1 -Output artifacts/MivtzarNaki-0.1.6-delivery ו־ValidatePackage.ps1 על אותה תיקייה: 457/457 PASS. Smoke.ps1 -Folder artifacts/MivtzarNaki-0.1.6-delivery -UpdateShutdown: 12/12 PASS ללא מנהל (דוח smoke-MivtzarNaki-0.1.6-delivery-update-shutdown.json). תיקיית Data שנוצרה הועברה ל־artifacts/smoke-0.1.6-data.
+תיקייה: C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.6-delivery; ZIP אותו נתיב עם -win-x64.zip. App 180,848,692 בתים; ZIP 68,962,554 בתים; SHA-256 3D1C1ED6A2E28DD3CFE7D97CC2A6F4B173E360EE6A1518081D09065327E3A313. ההבדל בקוד לעומת 0.1.5 הוא Version בלבד. אין עדכון חי בין הגרסאות על ידי הסוכן. בדיקת המשתמש בממשק 0.1.5 -> 0.1.6: PENDING.
+
 ## תיקון cwd והכנת זוג חדש 0.1.5 -> 0.1.6 — 29.9.2026
 
 הבדיקה הידנית 0.1.3 -> 0.1.4: FAIL לפי המשתמש. הלוג החדש ב־Downloads/.updates/update-error.log מצביע על Phase: release application files and replace App ועל Directory.Move לאחר שההורה יצא. StartReplacement הוריש תיקיית עבודה, וה־helper יכול לנעול App בעצמו. שוחזר מנגנון Windows בעותק נפרד: תהליך עם cwd App מנע rename באותה שגיאת שיתוף, ואחרי יציאתו rename הצליח; artifacts/cwd-lock-repro-47a7649060be4c32b2389647d8b054eb/results.json. הלוג המקורי אינו מתעד cwd, לכן זו אינה ראיה ישירה ל־cwd של התהליך המקורי.

@@ -1,5 +1,7 @@
 # מבצר נקי
 
+זוג הבדיקה העדכני: [0.1.5 — התחלה](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.5) ו־[0.1.6 — יעד](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.6). תיקון cwd של helper נוסף בעקבות כשל המשתמש 0.1.3 -> 0.1.4. חילוץ לתיקייה חדשה והפעלה מתוך 0.1.5; בדיקה ידנית של המעבר ל־0.1.6 ממתינה למשתמש. הסעיפים על זוג 0.1.3/0.1.4 להלן הם היסטוריה.
+
 הפצות לבדיקה ידנית: [0.1.3 — גרסת ההתחלה](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.3), [0.1.4 — יעד העדכון](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.4). חלץ את ZIP של 0.1.3 לתיקייה חדשה והפעל App/MivtzarNaki.exe; לאחר בדיקה ועדכון מפורש צפויה גרסה 0.1.4 בפרטים. המעבר בממשק ממתין לבדיקת המשתמש ואינו PASS. התיעוד ההיסטורי להלן נשמר; המצב והגדלים העדכניים בראש STATUS.
 
 תיקון מקומי 0.1.3: סיום WinUI מפורש לצורך עדכון, המתנה להורה לפני קריאת App והמתנה מוגבלת לנעילות לפני החלפה. תוצר 0.1.3 ב־artifacts/MivtzarNaki-0.1.3-lockfix פורסם; 0.1.4 פורסמה כיעד הבדיקה שלו. תוצאות ומגבלות מפורטות בראש STATUS ו־PLANS. אין שינוי בעותק המשתמש או Defender.
@@ -17,13 +19,13 @@
 
 ההורדה אינה מתקינה דבר. גרסאות זהות וישנות אינן מותקנות. הרשאות מנהל ותיקון שירות מבוקשים רק בעת צורך; תיקון דורש הסבר והסכמה.
 
-גרסה: **0.1.4**. מאגר: [talmidhon/MivtzarNakiPortable](https://github.com/talmidhon/MivtzarNakiPortable). המסירה המקומית: `artifacts/MivtzarNaki-0.1.4-delivery`, וה־ZIP: `artifacts/MivtzarNaki-0.1.4-delivery-win-x64.zip`. שם הנכס ב־Release הוא `MivtzarNaki-win-x64.zip`; זהו אותו ZIP ללא שינוי בתוכן. התלויות כלולות בתיקיית App, ולא ב־EXE יחיד. אין להעביר רק את ה־EXE. Data ו־OfflinePayloads נוצרות לצד App.
+גרסה: **0.1.6**. מאגר: [talmidhon/MivtzarNakiPortable](https://github.com/talmidhon/MivtzarNakiPortable). המסירה המקומית: `artifacts/MivtzarNaki-0.1.6-delivery`, וה־ZIP: `artifacts/MivtzarNaki-0.1.6-delivery-win-x64.zip`. שם הנכס ב־Release הוא `MivtzarNaki-win-x64.zip`; זהו אותו ZIP ללא שינוי בתוכן. התלויות כלולות בתיקיית App, ולא ב־EXE יחיד. אין להעביר רק את ה־EXE. Data ו־OfflinePayloads נוצרות לצד App.
 
-גודל App: **180,848,180 בתים (172.468 MiB), 457 קבצים**. ZIP: **68,962,519 בתים (65.767 MiB)**. חבילת Defender אינה כלולה; חבילת baseline נמדדה בנפרד: **221,960,616 בתים (211.678 MiB)**. גרסאות עתידיות של חבילת Defender עשויות להיות בגודל אחר.
+גודל App: **180,848,692 בתים (172.468 MiB), 457 קבצים**. ZIP: **68,962,554 בתים (65.767 MiB)**. חבילת Defender אינה כלולה; חבילת baseline נמדדה בנפרד: **221,960,616 בתים (211.678 MiB)**. גרסאות עתידיות של חבילת Defender עשויות להיות בגודל אחר.
 
 baseline 0.1.0 המאושר נשמר ב־`artifacts/MivtzarNaki-delivery` וב־`artifacts/MivtzarNaki-delivery-win-x64.zip`, עם SHA-256 ‏`892CDDFCA21012AFFD312F69CB801F1082C6D40C30B47CE4519D65BCF74420E8`. המשתמש דיווח על קבלה מוצלחת ב־Windows נקי ללא runtime נוסף, USB פיזי בין מחשב מקוון למנותק, התקנת Defender אמיתית עם UAC ואימות גרסה, והבדיקות החזותיות שביצע כולל RTL/DPI/חלון קטן. דיווח זה חל על 0.1.0; אינו מחליף קבלה חיצונית חוזרת של 0.1.1. Windows 10 דווקא, HighContrast וקורא מסך לא דווחו כבדיקות שעברו. יעד ה־API המינימלי בפרויקט הוא Windows 10 build 19041 x64, בגרסאות הנתמכות בתלויות.
 
-SHA-256 ZIP של **0.1.4**: `3D44F9C4651D62DCB9854D2B61BD395A8139288C5449613981022C4F90FEDE87`. כל 457 רשומותיו הושוו לקובצי המסירה. `SHA256SUMS.txt` מפורסם לצד ה־ZIP.
+SHA-256 ZIP של **0.1.6**: `3D1C1ED6A2E28DD3CFE7D97CC2A6F4B173E360EE6A1518081D09065327E3A313`. כל 457 רשומותיו הושוו לקובצי המסירה. `SHA256SUMS.txt` מפורסם לצד ה־ZIP.
 
 **בדיקת עדכון ידנית 0.1.1 -> 0.1.2 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש.** לא בוצע מעבר זה; בדיקות helper של 0.1.2 נעשו לפני הפרסום על fixtures חדשים בלבד. עותק המשתמש ב־Downloads נשמר ללא שינוי.
 
@@ -66,9 +68,9 @@ dotnet run --project tools/VerifyPayload -- artifacts/payload-verification
 
 ```json
 {
-  "latest_version": "0.1.4",
-  "download_url": "https://github.com/talmidhon/MivtzarNakiPortable/releases/download/v0.1.4/MivtzarNaki-win-x64.zip",
-  "sha256": "3D44F9C4651D62DCB9854D2B61BD395A8139288C5449613981022C4F90FEDE87",
+  "latest_version": "0.1.6",
+  "download_url": "https://github.com/talmidhon/MivtzarNakiPortable/releases/download/v0.1.6/MivtzarNaki-win-x64.zip",
+  "sha256": "3D1C1ED6A2E28DD3CFE7D97CC2A6F4B173E360EE6A1518081D09065327E3A313",
   "message": "עדכון מבצר נקי — תיקייה ניידת מלאה"
 }
 ```
