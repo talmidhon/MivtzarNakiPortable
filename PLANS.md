@@ -1,16 +1,27 @@
 # תוכנית העבודה לקודקס
 
-## משימה פעילה: Release 0.1.2 לבדיקת המשתמש בלבד — 29.9.2026
+## Release 0.1.2 פורסם; בדיקת המשתמש ממתינה — 29.9.2026
 
 היקף מינימלי: שינוי מספר הגרסה ב־Directory.Build.props, ב־UpdateSession.AppVersion ובטקסט הגרסה הקיים ב־MainWindow.xaml; אריזה חדשה, תיעוד ופרסום v0.1.2 עם metadata מתאים. אין שינוי לוגיקה, מבנה UI, Defender, תלויות או updater. תצוגת הפרטים הייתה עדיין טקסט 0.1.0 קבוע; תוקנה ל־0.1.2 כדי לאפשר זיהוי ידני. git status/diff נקיים בתחילת העבודה; Release/tag v0.1.2 אינם קיימים (404). נרשמה תמונת Release v0.1.1 ותגו ב־artifacts/release-0.1.2-preflight.json; אריזת 0.1.1 אומתה בקריאה בלבד.
 
-מועמד האריזה הראשון artifacts/MivtzarNaki-0.1.2 נבנה לפני תיקון טקסט הפרטים ונשמר כראיה בלבד, לא לפרסום. smoke ראשון לא נטען כי מופע המשתמש ב־Downloads מחזיק ב־mutex; אין לסגור אותו בכוח. אחרי התיקון ייארז יעד חדש artifacts/MivtzarNaki-0.1.2-final, וכל בדיקות התוצר ייעשו עליו לפני פרסום.
+מועמד האריזה הראשון artifacts/MivtzarNaki-0.1.2 נבנה לפני תיקון טקסט הפרטים ונשמר כראיה בלבד, לא לפרסום. smoke ראשון לא נטען כי מופע המשתמש ב־Downloads מחזיק ב־mutex; אין לסגור אותו בכוח. אחרי התיקון נארז יעד חדש artifacts/MivtzarNaki-0.1.2-final, וכל בדיקות התוצר ייעשו עליו לפני פרסום.
 
 תנאי הצלחה: build/tests, publish ליעד חדש artifacts/MivtzarNaki-0.1.2, smoke של 0.1.2 בלבד, helper fixtures חדשים המבוססים על 0.1.2 בלבד לפני פרסום, אימות ZIP/גרסאות/hash, commit/push main, tag/Release חדשים, assets תקינים ו־metadata/workflows מוצלחים, שימור מלא של 0.1.1. לאחר פרסום אין הפעלת אפליקציה, updater/helper או E2E. בדיקת metadata אחרי פרסום היא קריאה בלבד דרך HTTP/API, לא דרך האפליקציה.
 
 **בדיקת עדכון ידנית 0.1.1 -> 0.1.2 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש.** אין להפעיל 0.1.1, לעדכן עותק שלה, להריץ TestLiveUpdate/ProbeDistribution/TestPublishedPackageFailure או לסמן את הבדיקה כ־PASS. ההוראה החדשה גוברת על תכנון E2E ההיסטורי להלן. עותק ההתחלה למשתמש: artifacts/MivtzarNaki-0.1.1/App/MivtzarNaki.exe, בלי הפעלה מצדי.
 
-### אימות מקומי 0.1.2 לפני פרסום — 29.9.2026
+#[workflow בנייה](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36510948815): **PASS**, build/tests/package/validation; ה־Release הקיים נשמר ללא החלפת נכסים. workflow metadata 36510963135: **PASS**. בדיקת עקביות התיעוד: 22 קישורים מקומיים תקינים, ללא סמני קונפליקט; git diff --check תקין. הפרסום הושלם, והעבודה נעצרת לפני בדיקת המשתמש.
+
+### פרסום 0.1.2 — 29.9.2026
+
+[Release מבצר נקי v0.1.2](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.2) פורסם; תג v0.1.2 מצביע ל־957904a7cf28aaa45761f3aeb077fa7451fcc94d. שני נכסים: MivtzarNaki-win-x64.zip ו־SHA256SUMS.txt. digest של הנכס הציבורי תואם ל־ZIP הסופי המתועד לעיל. [workflow metadata](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36510963135) עבר; version.json הציבורי נבדק בקריאת HTTP בלבד: latest_version=0.1.2, download_url מצביע ל־v0.1.2, SHA-256 תואם. הבוט עדכן main ב־7bdb4a6; העותק המקומי סונכרן.
+
+לא הופעלה אפליקציה או helper לאחר הפרסום. לא נפתח או עודכן שום עותק 0.1.1 בידי הסוכן; המשתמש סגר בעצמו את המופע הפתוח לפני smoke. Release 0.1.1, body, tag ושני נכסיו נבדקו מול snapshot ונשמרו ללא שינוי; התיקייה וה־ZIP המקומיים שלו אומתו שוב, ו־456 גיבובי App בעותק Downloads תקינים. אין פעולות Defender בפיתוח.
+
+השינוי במשימה זו: Directory.Build.props, src/MivtzarNaki.Windows/UpdateSession.cs, src/MivtzarNaki.App/MainWindow.xaml (מספרי גרסה בלבד), README.md, PLANS.md, docs/STATUS.md ותוכן version.json שאומת ב־workflow. ההפרש המלא בין תגי v0.1.1 ו־v0.1.2 כולל בנוסף תיקוני תיעוד וכלי פרסום שהיו כבר ב־main לפני משימה זו: AGENTS.md, docs/architecture.md, docs/release-update.md, tools/PublishFeed.ps1, tools/TestLiveUpdate.ps1, tools/TestPublishedPackageFailure.ps1. הכלים האחרונים לא הורצו במשימת 0.1.2.
+
+**בדיקת עדכון ידנית 0.1.1 -> 0.1.2 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש.** לא בוצעה בדיקת E2E זו. קבלה חיצונית חדשה במחשב נקי/USB/offline/Defender אינה מסומנת PASS; המגבלות ההיסטוריות של HighContrast/קורא מסך, Windows 10 דווקא וניתוק בזמן החלפה נשארות ללא אימות. גרסה זו פורסמה לצורך הבדיקה הידנית, ולא כהוכחה שכבר עברה אותה.
+## אימות מקומי 0.1.2 לפני פרסום — 29.9.2026
 
 - build מלא: 0 אזהרות ושגיאות; tests: 52/52 PASS, ללא דילוגים.
 - Package.ps1 -Output artifacts/MivtzarNaki-0.1.2-final: publish ואריזה PASS; ValidatePackage.ps1: 457/457 PASS.
