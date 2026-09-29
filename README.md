@@ -32,7 +32,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/Smoke.ps1 -Folder arti
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/TestPortableUpdate.ps1 -Folder artifacts/MivtzarNaki-0.1.1
 ```
 
-Package מריץ `dotnet publish src/MivtzarNaki.App/MivtzarNaki.App.csproj -c Release -o artifacts/MivtzarNaki-delivery/App --nologo`, מסיר PDB בלבד, יוצר מניפסט ו־ZIP עם נתיבי App/ ומודד גדלים. הסקריפט דורש יעד חדש: להרצה חוזרת יש לבחור Output אחר, כדי לא לדרוס מסירה קיימת.
+Package מריץ dotnet publish במצב Release לתיקיית App תחת Output, מסיר PDB, קורא את גרסת ה־EXE ויוצר מניפסט ו־ZIP עם נתיבי App/. הוא מודד גדלים ומסרב לדרוס יעד קיים; להרצה חוזרת יש לבחור Output חדש.
 
 Smoke טוען XAML עם `--smoke-test` ו־fixtures בשישה מצבים, בשתי ערכות צבעים; מצב progress נבדק גם בחלון קטן. הוא מאמת יציאה תקינה, RTL, ערכה, נתיב בסיס והרצה ללא מנהל מתוך WorkingDirectory של Windows. אין קריאת רשת או פעולות Defender במסלול fixture. בלי fixture, מצב smoke קורא מידע מקומי ומטא־דאטה בלבד, כותב `Data/smoke-test.txt` ונסגר. אין הורדה, התקנה או תיקון. יש לסגור מופעים קיימים לפני בדיקות פתיחה, משום שהתוכנה מוגבלת למופע אחד.
 
@@ -46,7 +46,7 @@ dotnet run --project tools/VerifyPayload -- artifacts/payload-verification
 
 **52/52 בדיקות** עברו עבור 0.1.1, כולל כל 39 הקודמות. build הסתיים ללא אזהרות או שגיאות; publish, אימות כל קובצי האריזה, 12/12 smoke ושלושת תרחישי ה־helper עברו. בדיקות Defender בפיתוח משתמשות ב־fakes בלבד. קבלת 0.1.0 במחשב ניסוי דווחה על ידי המשתמש; לא בוצעו התקנה או תיקון Defender במחשב הפיתוח. ראיות ומצב בדיקת המקור החי ב־[STATUS](docs/STATUS.md).
 
-בסבב ההשלמה build ו־39 הבדיקות הורצו שוב. 12/12 smoke מהסבב הקודם חלים על אותו תוצר; נוסף smoke רגיל ללא fixture, ללא מנהל, מ־C:\Windows ובנתיב עברי עם רווחים. במצב שרת לא זמין הוצג מידע לא ידוע. תיקון פרטים בחלון קטן אומת חזותית במסירה, בערכות כהה/בהיר וב־150%, וכן דיאלוג בדיקה וביטול. HighContrast אמיתי, DPI נוספים וקורא מסך לא נבדקו. לא נדרש publish חוזר בסבב ההשלמה כי קוד האפליקציה לא שונה, אלא כלי האימות והתיעוד בלבד.
+בסבב ההיסטורי של 0.1.0 אומת גם תיקון פרטים בחלון קטן, כהה/בהיר ב־150%, ודיאלוג בדיקה וביטול; המשתמש הוסיף קבלה חזותית במצבים שבדק. HighContrast וקורא מסך אינם מסומנים כ־PASS. עבור 0.1.1 בוצעו publish ו־smoke חדשים; אין טענה לקבלה חזותית חיצונית חוזרת על גרסה זו.
 
 ## אחסון ועדכון עצמי
 
@@ -68,6 +68,8 @@ dotnet run --project tools/VerifyPayload -- artifacts/payload-verification
 הקישור מוגבל לאותו מאגר ולתג v התואם לגרסת ה־feed; גרסת המניפסט חייבת להתאים. ההורדה מאומתת מול SHA-256 וכל קובצי App מאומתים מול המניפסט. אמון המקור נובע מה־feed המוגדר ב־HTTPS, ולא מהגיבובים הפנימיים לבדם. בדיקה אוטומטית אינה מורידה; החלפה דורשת לחיצה על ״עדכן את מבצר נקי״. אין התקנת גרסה זהה או ישנה. כשל GitHub מוצג כמידע לא זמין ואינו חוסם Defender מקומי.
 
 מבנה ההפצה נלמד מ־[AcerChargeLimiter](https://github.com/talmidhon/AcerChargeLimiter): public/main, תגי v, draft Releases ו־version.json המתעדכן לאחר פרסום יציב. כאן אין מתקין, self-signing או סמלי פיתוח; יש ZIP תיקייה ו־checksum. הוראות פרסום ואימות: [release/update](docs/release-update.md).
+
+בדיקת המקור החי עברה: 0.1.0 → 0.1.1 דרך מנוע baseline ו־helper אמיתיים על עותק מבודד, download מ־GitHub, אימות כל החבילה, staging/החלפה/אישור XAML ושימור App הקודמת, settings/logs/payload. Probe אימת אין עדכון לאותה גרסה או לגרסה חדשה יותר. הורדה נוספת של הנכס וקיצור עותק שלו נדחו ב־helper בלי לפגוע בגרסה התקינה. הקריאה לעדכון הייתה דרך API בדיקה מפורש, לא לחיצה פיזית על כפתור. קבלה חיצונית חוזרת של 0.1.1, כולל Windows נקי/USB/offline והתקנת Defender במחשב ניסוי, עדיין אינה מתועדת.
 
 החלפה מתחילה בלחיצה ומשאירה את App הקודמת ב־`.updates/previous-GUID`. כשל הפעלה מזוהה ומשחזר אותה; שגיאות ב־`.updates/update-error.log`. לשחזור ידני לאחר הפסקת חשמל או ניתוק USB: סגור את האפליקציה ואת ה־helper, שמור את התיקיות הקיימות, והחזר את הגיבוי המלא לתיקיית App. אין להעתיק EXE בודד או לשנות Data/OfflinePayloads. ודא שהאפליקציה נפתחת לפני ניקוי הגיבויים.
 

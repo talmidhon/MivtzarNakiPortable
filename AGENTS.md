@@ -41,7 +41,7 @@ updates or execute repairs on the development PC; use controlled fixtures/fakes.
 - Successful process exit alone does not prove installation; verify the installed Defender version against the target.
 - Distinguish unavailable Defender data from a real version. Do not represent errors as 0.0.0.0 or assume HEAD contains a version.
 - Keep app version, Defender signature version, and payload architecture separate.
-- WinUI 3 is selected. The current delivery is a self-contained App folder and ZIP; keep all runtime files together. Clean/offline Windows remains unverified. Do not change UI frameworks.
+- WinUI 3 is selected. Delivery is a self-contained App folder and ZIP; keep all runtime files together. The user reported clean Windows, physical USB/offline and real Defender/UAC acceptance for baseline 0.1.0. Do not carry those results over to a new binary without evidence. Do not change UI frameworks.
 - Preserve machine state during routine checks. Installation and repair tests must be identified explicitly before execution.
 
 ## Working in this repository

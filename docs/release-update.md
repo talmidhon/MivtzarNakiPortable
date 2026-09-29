@@ -17,13 +17,15 @@
 3. סקור את הקבצים המיועדים ל־Git ואת ה־ZIP; אין להוסיף secrets, Data, logs, research או חבילות Defender. commit/push ותג חדש בלבד.
 4. workflow build.yml בונה ובודק תג, שומר artifact CI ויוצר draft רק אם לא קיים Release לתג. הוא אינו דורס assets של Release קיים. אין self-signing של ה־EXE: תעודה עצמית אינה זהות מפרסם מהימנה.
 5. סקור את התוצר וה־checksum, ואז פרסם את ה־draft. לפרסום המקומי הראשון מועלה ZIP שאומת מקומית; אין החלפתו בבניית CI אחרת.
-6. publish-version.yml מאמת published stable/latest, מוריד ZIP ו־checksum בפועל, בודק hash וגרסת מניפסט ומעדכן version.json. הוא מסרב לפרסום prerelease או להורדת גרסת feed. אפשר להריץ אותו ידנית עם tag. רק לאחר assets נגישים מתעדכן feed.
+6. publish-version.yml מאמת published stable/latest, מוריד ZIP ו־checksum בפועל, בודק hash וגרסת מניפסט ומעדכן version.json ללא BOM. הוא מסרב לפרסום prerelease או להורדת גרסת feed. אפשר להריץ אותו ידנית עם tag. רק לאחר assets נגישים מתעדכן feed. raw GitHub עשוי להחזיר מטמון לכמה דקות אחרי commit; אין לפרסם metadata לפני סיום העלאת כל הנכסים.
 7. ProbeDistribution בודק מול המקור האמיתי update עבור 0.1.0, אין update לאותה גרסה ואין downgrade. תוצאות ומגבלות מדווחות ב־STATUS.
 
 פקודות אימות מקור חי (ללא Defender וללא החלפת העותק שבשימוש):
 
 ```powershell
 dotnet run --project tools/ProbeDistribution
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/TestLiveUpdate.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/TestPublishedPackageFailure.ps1
 powershell -NoProfile -ExecutionPolicy Bypass -File tools/PublishFeed.ps1 -Tag v0.1.1
 ```
 

@@ -1,6 +1,52 @@
 ﻿# מצב העבודה והמשך
 
-## משימה חדשה: מקור הפצה חי — 29.9.2026
+## Release 0.1.1 — מקור הפצה חי, 29.9.2026
+
+מאגר ציבורי חדש: [talmidhon/MivtzarNakiPortable](https://github.com/talmidhon/MivtzarNakiPortable), ענף main. [Release v0.1.1](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.1) פורסם עם MivtzarNaki-win-x64.zip ו־SHA256SUMS.txt. תג v0.1.1 מצביע ל־dc4d9df1c6901ee191ab84481d0072932d527926, מקור בינריי האפליקציה; תיקוני כלי פרסום ותיעוד נוספו ב־main בלי להזיז את התג או לשנות את הנכסים. לא שונה אף מאגר קודם. הייחוס שנבדק בפועל הוא [AcerChargeLimiter](https://github.com/talmidhon/AcerChargeLimiter), התואם גם למקור המחקר המתועד.
+
+מקור העדכון האמיתי: [version.json](https://raw.githubusercontent.com/talmidhon/MivtzarNakiPortable/main/version.json). ברירת המחדל מובנית ב־0.1.1; הגדרות ריקות ישנות משתמשות בה ללא דריסת נתוני משתמש. ב־0.1.0 נדרש UpdateFeed מפורש לחיבור הראשוני. אין הורדה/החלפה ללא פעולה מפורשת. equal/downgrade חסומים. GitHub לא זמין אינו מוצג כמעודכן ואינו חוסם Defender מקומי.
+
+### מסירה חדשה; baseline נשמר בנפרד
+
+- גרסה סופית: **0.1.1**, תאריך: **29.9.2026**.
+- תיקייה: `C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.1`.
+- App: `C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.1\App` — **180,845,644 בתים (172.468 MiB)**.
+- ZIP: `C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.1-win-x64.zip` — **68,961,256 בתים (65.767 MiB)**.
+- SHA-256: `C99AA720E6A2BFD8558BD8F532FB82BCD7A66B3C63BA7084B1C35AAA40760549`.
+- 456 קובצי App ומניפסט: **457 קבצים**. כל רשומת ZIP, המניפסט והגדלים אומתו מול התיקייה. הנכס הציבורי הוא עותק של אותו ZIP ללא שינוי, ו־digest של GitHub תואם.
+- baseline 0.1.0 נשמר בנתיבים ובגיבוב בסעיף הסגירה ההיסטורי להלן; כל 457 הקבצים וה־ZIP אומתו שוב. חבילת Defender נפרדת ואינה מופצת.
+
+### בדיקות שבוצעו עבור 0.1.1
+
+- `dotnet build MivtzarNaki.slnx --nologo`: PASS, ‏0 אזהרות/שגיאות.
+- `dotnet test tests/MivtzarNaki.Tests/MivtzarNaki.Tests.csproj --nologo`: **52/52 PASS**, ללא דילוגים, כולל כל 39 הקודמות. נבדקו metadata תקין/פגום, same/newer/downgrade, unavailable/timeout/retry/cancellation, feed ישן ריק, אין הורדה בבדיקה, asset חסר/checksum נכשל; הבדיקות הקודמות מכסות עבודה מקומית תוך המתנה, traversal/partial/locked, staging/rollback ושימור payload.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File tools/Package.ps1 -Output artifacts/MivtzarNaki-0.1.1`: publish ואריזה חדשים PASS. גרסת המניפסט נגזרת מ־EXE, ללא מספר קשיח.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File tools/ValidatePackage.ps1 -Folder artifacts/MivtzarNaki-0.1.1`: **457/457 PASS**; אותה פקודה ל־baseline מאשרת את שימורו.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File tools/Smoke.ps1 -Folder artifacts/MivtzarNaki-0.1.1`: **12/12 PASS**, dark/light × שישה מצבים, RTL, ‏150%, חלון קטן, ללא מנהל, נתיב עברי/רווחים ו־cwd Windows. זו בדיקת טעינת XAML, לא בדיקה חזותית חדשה. נתוני smoke הועברו ל־`artifacts/smoke-0.1.1-data`; תיקיית המסירה נשארה App בלבד. דוח: `artifacts/smoke-MivtzarNaki-0.1.1.json`.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File tools/TestPortableUpdate.ps1 -Folder artifacts/MivtzarNaki-0.1.1`: **success/rollback/session PASS**, helper אמיתי ו־HTTP מדומה, עם settings/logs/payload sentinels; דוח `artifacts/updater-fixture-04e0fa7525d440fe98f8e54800342e84/results.json`.
+- `dotnet run --project tools/ProbeDistribution`: **PASS מול raw GitHub האמיתי**, הצעת 0.1.1 עבור 0.1.0, אין הצעה לאותה גרסה ואין downgrade עבור 99.0.0. אין שימוש בכתובת מקומית/זמנית או credentials.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File tools/PublishFeed.ps1 -Tag v0.1.1`: הורדת נכס GitHub ו־checksum אמיתיים, SHA-256 ומניפסט תואמים; PASS. ה־feed נכתב ללא BOM.
+- [workflow בנייה](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36507945944): PASS — build/tests/package/validation, artifact CI נפרד, Release הקיים נשמר ולא נדרס. [workflow metadata מתוקן](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36508276676): PASS.
+
+### E2E אמיתי והגבולות שלו
+
+`powershell -NoProfile -ExecutionPolicy Bypass -File tools/TestLiveUpdate.ps1`: **PASS**. שתי גרסאות אמיתיות: מנוע Core/Windows וה־runtime של baseline 0.1.0, וחבילת App הציבורית 0.1.1. רק entry assembly בעותק הבדיקה הוחלף בדרייבר מתועד כדי לתת הסכמה מפורשת ל־UpdateAppAsync; אין שינוי מספרי גרסה מדומה, baseline או Release ניסויי. metadata ו־ZIP נקראו מ־GitHub ללא mocks. בוצעו download, SHA-256, אימות כל החבילה, staging, StartReplacement, helper אמיתי, המתנה להורה ואישור XAML מהאפליקציה החדשה האמיתית. כל 456 גיבובי App והמניפסט החדש תואמים למסירה; הגיבוי הישן ו־Defender fixtures/settings/logs נשמרו. דוח: `artifacts/live-update-8a95dbd8285f46749cc219b69948d89b/results.json`.
+
+פתיחה רגילה נוספת של התוצר שהותקן בתרחיש זה, עם `--smoke-test` ומ־C:\Windows, עברה ביציאה 0 בתוך כ־3.3 שניות. Elevated=False, RTL=RightToLeft, Scale=1.5, Fixture=none; נקרא מצב Defender בלבד ולא הופעלה התקנה. דוח `Data/smoke-test.txt` באותה תיקיית E2E.
+
+`powershell -NoProfile -ExecutionPolicy Bypass -File tools/TestPublishedPackageFailure.ps1`: **PASS**. ZIP פורסם הורד שוב מ־GitHub וגיבובו אומת; רק עותק בדיקה קוצר ל־1,024 בתים. helper אמיתי דחה אותו עם exit 1 כצפוי, פתח מחדש את האפליקציה התקינה ושמר את כל 456 הקבצים, settings/logs/payload. דוח `artifacts/published-failure-70b8cd3b5e744fe6bc820dab1ea3f1aa/results.json`. זהו כשל אימות לפני החלפה; rollback אחרי כשל אתחול מכוסה בתרחיש fixture הנפרד, לא מיוחס ל־ZIP הציבורי התקין.
+
+הניסיון הראשון ב־`artifacts/live-update-c528e02bcd34459fa33dd5d71100579a` נכשל על BOM ב־JSON, לפני הורדה/החלפה. שגיאת הקידוד בסקריפט PowerShell נצפתה גם ב־[workflow הראשון](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36507946077). תוקנו קידוד הסקריפט וכתיבת HTTP JSON ללא BOM, בלי שינוי בינריים. raw החזיר מטמון ישן עם Source-Age ו־max-age=300, ונצפו גם timeouts בבדיקות ביניים; אלה אינם PASS. רק לאחר רענון המקור הרגיל בוצעו בהצלחה Probe ו־E2E לעיל. אין הסתרה של הכשלים ואין טענה שנפתר באג בתוכנת baseline.
+
+### קבלה ומגבלות שנותרו
+
+קבלת המשתמש המפורטת להלן חלה על 0.1.0: מחשב נקי, runtime כלול, USB/offline אמיתיים, התקנת Defender/UAC ואימות גרסה, והממשק שבדק. **0.1.1 מוכנה טכנית למסירה לפי בדיקות הקוד, האריזה והעדכון החי; לא בוצעה קבלה חיצונית חוזרת שלה**. נותרו לביצוע ידני על הבינריים החדשים: מחשב נקי/USB/offline, Defender/UAC במחשב ניסוי, בדיקה חזותית ופעולת עדכון דרך כפתור UI. E2E קרא לפעולה ישירות בעותק מבודד, לא לחץ פיזית על הכפתור. Windows 10 דווקא, תיקון Defender אמיתי, HighContrast, קורא מסך, הפסקת חשמל/ניתוק USB/הריגת helper בזמן rename ויציבות ממושכת אינם PASS. גיבויים/עותקי helper עשויים לדרוש ניקוי ידני; החלפה אינה טרנזקציה אטומית. אין הבטחת ״כל מחשב״.
+
+לא הופעלו התקנת Defender או תיקון במחשב הפיתוח. כל הקבצים המיועדים לפרסום נסרקו לפני push: אין credentials מזוהים או קבצים מתיקיות research/artifacts/Data/OfflinePayloads/logs/bin/obj. רק ZIP האפליקציה וה־checksum צורפו ל־Release; סריקת דפוסים אינה הוכחה מתמטית להיעדר secrets. מקור, בדיקות, כלים ותיעוד פורסמו; אין פרסום נתוני הבדיקות המקומיים. הוראות: [release/update](release-update.md).
+
+בדיקת התיעוד בסיום: 22 קישורים מקומיים בשבעה מסמכים, ללא יעד חסר או סמני קונפליקט; גרסאות props/מניפסט/feed, גודל וגיבוב עקביים. git diff --check של השינויים האחרונים עבר; לא נשארו תהליכי בדיקה. התוצר וה־baseline אינם משתנים בעקבות תיקוני כלי פרסום או מסמכים. אין משימת מימוש נוספת פתוחה בהיקף זה; הקבלה הידנית החוזרת והמגבלות לעיל אינן מוצגות כבדיקות שעברו.
+
+## תחילת המשימה — היסטוריה לפני הפרסום, 29.9.2026
 
 המשתמש אישר הקמת GitHub, commit/push, tags ו־Releases וחיבור העדכון העצמי. העבודה בעיצומה לפי ראש PLANS; אין גרסה חדשה מאומתת או מפורסמת עדיין. 0.1.0 הוא baseline מאושר ונשמר ללא שינוי. ה־ZIP וגיבובו אומתו מחדש: 892CDDFCA21012AFFD312F69CB801F1082C6D40C30B47CE4519D65BCF74420E8.
 

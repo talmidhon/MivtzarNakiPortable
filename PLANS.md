@@ -1,6 +1,24 @@
 ﻿# תוכנית העבודה לקודקס
 
-## משימה פעילה: מקור GitHub חי וגרסה חדשה — 29.9.2026
+## מקור GitHub חי וגרסה 0.1.1 — תוצאות, 29.9.2026
+
+הוקם https://github.com/talmidhon/MivtzarNakiPortable ציבורי בענף main, לפי הייחוס AcerChargeLimiter שאומת מול החשבון המחובר. המאגרים הקודמים לא שונו. v0.1.1 פורסם עם MivtzarNaki-win-x64.zip ו־SHA256SUMS.txt; feed אמיתי ב־raw/main/version.json. התג dc4d9df נשמר; תיקוני כלי פרסום ותיעוד ב־main אינם משנים את הבינריים.
+
+- [x] baseline 0.1.0 נשמר; כל גיבובי התיקייה וה־ZIP אומתו שוב.
+- [x] מקור ברירת מחדל אמיתי, fallback להגדרות ריקות בלי דריסתן, בדיקה נפרדת מפעולה, tag/version/hash validation וניקוי download חלקי. Defender לא שונה.
+- [x] build: ‏0 אזהרות ושגיאות; **52/52 tests PASS**, כולל 39 הקודמות.
+- [x] publish חדש ב־artifacts/MivtzarNaki-0.1.1; **457/457** קבצי ZIP תואמים, **12/12 smoke PASS**; שלושת תרחישי helper success/rollback/session עברו ושמרו payload/settings/logs.
+- [x] סריקת קובצים לפני פרסום, commit/push, tag ו־Release חדשים; אין research/Defender/logs/נתוני משתמש בנכסי המסירה או בקובצי Git.
+- [x] workflows בנייה ו־metadata עברו בפועל. כשל encoding ראשון נרשם ותוקן; JSON נכתב ללא BOM. מטמון raw וכשלי timeout ביניים לא סומנו כ־PASS.
+- [x] Probe אמיתי: metadata, update ל־0.1.0, אין עדכון ל־0.1.1 ואין downgrade.
+- [x] **E2E GitHub PASS מ־0.1.0 ל־0.1.1**, מנוע baseline אמיתי ודרייבר בעותק בלבד, ZIP ציבורי, download/hash/manifest/staging/helper/XAML, אימות כל App והגיבוי ושימור הנתונים. פתיחה רגילה נוספת ללא מנהל עברה.
+- [x] נכס ציבורי הורד שוב, אומת ואז עותק שלו קוצר: helper דחה את הכשל, פתח את App התקינה ושמר 456 קבצים ו־settings/logs/payload. אין שינוי בנכס שפורסם.
+
+מסירה: `C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.1`; ZIP: `C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.1-win-x64.zip`. App ‏180,845,644 בתים, ZIP ‏68,961,256 בתים; SHA-256 ‏`C99AA720E6A2BFD8558BD8F532FB82BCD7A66B3C63BA7084B1C35AAA40760549`. Defender נפרד ואינו כלול. ראיות ופקודות מפורטות ב־[STATUS](docs/STATUS.md).
+
+המשתמש אישר את רשימת הקבלה המפורטת של baseline להלן. הקבלה אינה מועתקת לגרסה החדשה: נדרשת בדיקה ידנית חוזרת של 0.1.1 במחשב נקי/USB/offline, התקנת Defender/UAC במחשב ניסוי, ממשק ופעולת עדכון דרך הכפתור. E2E הפעיל את API הפעולה בהסכמה מפורשת בעותק, לא אינטראקציית UI. Windows 10 דווקא, תיקון אמיתי, HighContrast/קורא מסך, הפסקת חשמל/ניתוק בזמן rename ויציבות ממושכת נשארו ללא אימות. אין שינוי Defender בפיתוח ואין subagents.
+
+## תכנון המשימה — היסטוריה, 29.9.2026
 
 המשתמש אישר במפורש הקמת מאגר, commit/push, tags ו־Releases. החשבון המחובר אומת כ־talmidhon. הייחוס הוא AcerChargeLimiter: תיעוד הפרויקט והמקור החי מצביעים על אותו מנגנון version.json ב־main ו־Releases ציבוריים עם תגי v. השם MivtzarNaki כבר תפוס במאגר פרטי היסטורי; יוקם MivtzarNakiPortable ציבורי בלי לשנות את המאגרים הקיימים. שם המוצר נשאר מבצר נקי.
 
@@ -15,10 +33,10 @@ baseline 0.1.0 ותיקיית artifacts/MivtzarNaki-delivery נשמרים ללא
 שלבים ובדיקות: (1) סקר המקור החי ושימור baseline; (2) קוד/תצורה/אריזה/workflows ובדיקות metadata/retry/timeout/פגום/asset/checksum/חבילה; (3) build וכל tests ו־publish חדש; (4) helper success/rollback/session ו־smoke על עותקים; (5) סקירת קובצי Git ואז commit/push, Release חדש ו־feed; (6) E2E מ־0.1.0 ל־0.1.1 על עותק מבודד עם feed אמיתי דרך המנגנון הקיים, download/אימות/staging/helper/שימור; בדיקת אותה גרסה/no-update; (7) תיעוד הראיות והמגבלות ובדיקת נגישות הפרסום. אין צורך ב־release ניסויי אם baseline אמיתי זמין כגרסה הישנה; תוצאות E2E יירשמו רק לאחר ביצוע.
 
 - [x] קריאת הקשר, Git ו־baseline; סקר חשבון וייחוס חי.
-- [ ] מימוש ובדיקות אוטומטיות.
-- [ ] publish/אריזה ו־smoke/helper.
-- [ ] פרסום מקור ו־E2E אמיתי.
-- [ ] תיעוד סופי ומסירה.
+- [x] מימוש ובדיקות אוטומטיות.
+- [x] publish/אריזה ו־smoke/helper.
+- [x] פרסום מקור ו־E2E אמיתי.
+- [x] תיעוד סופי ומסירה — 22 קישורים מקומיים בשבעה מסמכים וגרסה/feed/hash נבדקו; אין סמני קונפליקט. בדיקות קבלה חדשות שדורשות המשתמש נשארו מפורשות בראש המסמך וב־STATUS.
 
 ## סגירת Release הושלמה — 0.1.0, 29.9.2026 (היסטוריה; הבהרת הקבלה לעיל גוברת)
 
