@@ -32,13 +32,13 @@ public static class PortableAppUpdate
         var candidate = Path.GetFullPath(candidateText);
         if (Path.GetFileName(application) != "App" || Path.GetFileName(target) != "MivtzarNaki.exe" || !candidate.Equals(Path.Combine(root, ".updates", "MivtzarNaki.next.zip"), StringComparison.OrdinalIgnoreCase)) return 3;
         var staged = Path.Combine(root, ".updates", "stage-" + Guid.NewGuid().ToString("N"));
+        var phase = "validate incoming package";
         try
         {
             FolderPackage.RejectLinks(root);
             await FolderPackage.ExtractAsync(candidate, staged, hash, default);
             var incoming = await FolderPackage.ValidateAsync(staged, default);
-            var current = await FolderPackage.ValidateAsync(application, default);
-            if (Version.Parse(incoming.Version) <= Version.Parse(current.Version)) throw new InvalidDataException("גרסת מבצר נקי אינה חדשה יותר.");
+            phase = "wait for application process exit";
             try
             {
                 using var parentProcess = Process.GetProcessById(parent);
@@ -46,6 +46,11 @@ public static class PortableAppUpdate
                 await parentProcess.WaitForExitAsync(deadline.Token);
             }
             catch (ArgumentException) { }
+            // Never read or attempt exclusive access to the running parent's App.
+            phase = "validate previous application after process exit";
+            var current = await FolderPackage.ValidateAsync(application, default);
+            if (Version.Parse(incoming.Version) <= Version.Parse(current.Version)) throw new InvalidDataException("גרסת מבצר נקי אינה חדשה יותר.");
+            phase = "release application files and replace App";
             await FolderPackage.ReplaceAsync(root, staged, async executable =>
             {
                 var acknowledgement = Path.Combine(root, ".updates", "started-" + Guid.NewGuid().ToString("N"));
@@ -68,7 +73,8 @@ public static class PortableAppUpdate
                     if (!app.HasExited) { app.Kill(); await app.WaitForExitAsync(); }
                     throw;
                 }
-            }, default);
+            }, default, TimeSpan.FromSeconds(10));
+            phase = "clean completed update";
             File.Delete(candidate);
             File.Delete(Path.Combine(root, ".updates", "update-error.log"));
             return 0;
@@ -78,7 +84,7 @@ public static class PortableAppUpdate
             try
             {
                 Directory.CreateDirectory(Path.Combine(root, ".updates"));
-                File.WriteAllText(Path.Combine(root, ".updates", "update-error.log"), ex.Message);
+                File.WriteAllText(Path.Combine(root, ".updates", "update-error.log"), $"Phase: {phase}\nApp: {application}\nParent PID: {parent}\n{ex}");
                 if (File.Exists(target))
                 { using var restored = Process.Start(new ProcessStartInfo(target) { UseShellExecute = false, WorkingDirectory = root }); }
             }

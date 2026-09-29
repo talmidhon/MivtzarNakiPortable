@@ -84,7 +84,7 @@ public static class FolderPackage
     }
 
     // Only application directories participate. Data, OfflinePayloads and other root files are untouched.
-    public static async Task ReplaceAsync(string root, string staged, Func<string, Task> verifyLaunch, CancellationToken token)
+    public static async Task ReplaceAsync(string root, string staged, Func<string, Task> verifyLaunch, CancellationToken token, TimeSpan? lockBudget = null)
     {
         RejectLinks(root);
         await ValidateAsync(staged, token);
@@ -92,10 +92,27 @@ public static class FolderPackage
         var backup = Path.Combine(root, ".updates", "previous-" + Guid.NewGuid().ToString("N"));
         Directory.CreateDirectory(Path.GetDirectoryName(backup)!);
         // Detect locked files before moving anything; no forced termination of another app instance.
-        foreach (var file in Directory.GetFiles(current, "*", SearchOption.AllDirectories))
-        { using var check = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None); }
-        token.ThrowIfCancellationRequested();
-        Directory.Move(current, backup);
+        var wait = System.Diagnostics.Stopwatch.StartNew();
+        while (true)
+        {
+            token.ThrowIfCancellationRequested();
+            try
+            {
+                foreach (var file in Directory.GetFiles(current, "*", SearchOption.AllDirectories))
+                {
+                    try { using var check = new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None); }
+                    catch (IOException ex) { throw new IOException($"Cannot release application file: {file}. {ex.Message}", ex.HResult); }
+                }
+                token.ThrowIfCancellationRequested();
+                Directory.Move(current, backup);
+                break;
+            }
+            catch (IOException ex) when ((ex.HResult & 0xffff) is 32 or 33 && wait.Elapsed < (lockBudget ?? TimeSpan.Zero))
+            {
+                var remaining = (lockBudget ?? TimeSpan.Zero) - wait.Elapsed;
+                if (remaining > TimeSpan.Zero) await Task.Delay(remaining < TimeSpan.FromMilliseconds(200) ? remaining : TimeSpan.FromMilliseconds(200), token);
+            }
+        }
         try
         {
             Directory.Move(staged, current);

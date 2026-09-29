@@ -1,5 +1,41 @@
 # תוכנית העבודה לקודקס
 
+## שתי גרסאות הפצה לבדיקת המשתמש — 29.9.2026
+
+היקף: לפרסם 0.1.3 עם תיקון הסגירה ומקור גרסה יחיד באמצעות ה־ZIP המקומי שכבר נבדק, ולאחר מכן לבנות ולפרסם 0.1.4 זהה התנהגותית מלבד Version ב־Directory.Build.props. 0.1.3 היא עותק ההתחלה; feed הסופי מצביע ל־0.1.4. תוצרים/תגים/נכסים קיימים אינם נדרסים. אישור הפרסום הקודם והבקשה החדשה חלים על שתי ההפצות. אין בדיקת מעבר על ידי הסוכן, הפעלת העותק של המשתמש או Defender.
+תנאי הצלחה: בדיקות 0.1.3 הקיימות מאומתות; build/tests/publish/ZIP/validation/smoke ל־0.1.4, שתי Releases עם ZIP ו־SHA256SUMS, workflows מוצלחים ו־metadata תואם. השלמת פרסום metadata של 0.1.3 לפני פרסום 0.1.4 כדי למנוע התנגשות latest. בדיקת עדכון ידנית 0.1.3 -> 0.1.4 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש. אין E2E update או helper אחרי פרסום.
+
+## תיקון מקומי 0.1.3 לתיאום עדכון — 29.9.2026
+
+AppUpdate_Click משתמש כעת ב־ExitForAppUpdate: ביטול פעילות רקע, עצירת timers, סגירת חלון וסיום מפורש של WinUI. ה־helper ממתין לסיום תהליך ההורה לפני אימות App הישנה. החלפה ממתינה עד 10 שניות לנעילות שיתוף Windows (32/33) בלבד, בלי להרוג תהליך חיצוני ובלי להזיז App לפני שחרור הנעילה. כשל מתמשך/ביטול משמרים App ו־stage; rollback נשמר. הלוג כולל שלב, נתיב App, PID וחריגה מלאה; אין קביעה שהגורם המקורי שוחזר. הגרסה נגזרת ממקור יחיד Directory.Build.props.
+
+בדיקות בפועל: dotnet build MivtzarNaki.slnx --nologo — 0 אזהרות/שגיאות; dotnet test tests/MivtzarNaki.Tests/MivtzarNaki.Tests.csproj --nologo — 55/55 PASS. בדיקות חדשות מכסות נעילה המשתחררת בזמן ההמתנה, נעילה מתמשכת עם נתיב בשגיאה וביטול בלי גיבוי חלקי. Package.ps1 -Output artifacts/MivtzarNaki-0.1.3-lockfix עבר; ValidatePackage.ps1 — 457/457 PASS. Smoke.ps1 -Folder artifacts/MivtzarNaki-0.1.3-lockfix -UpdateShutdown — 12/12 PASS; הפעלת וסיום WinUI דרך אותה פונקציה המשמשת את כפתור העדכון, בלי הורדה או Defender. זו אינה לחיצה פיזית על הכפתור או E2E מול GitHub. דוח artifacts/smoke-MivtzarNaki-0.1.3-lockfix-update-shutdown.json; Data הועברה ל־artifacts/smoke-0.1.3-lockfix-data.
+
+TestPortableUpdate.ps1 -Folder artifacts/MivtzarNaki-0.1.3-lockfix — success/rollback/session PASS. דוח artifacts/updater-fixture-6938eb86e77241a286fc99be6f9a64f9/results.json. fixture ההורה מחזיק מניפסט App ב־FileShare.None במשך שתי שניות לאחר התחלת helper, ואז יוצא; הנתונים נשמרו בכל שלושת התרחישים. אין טענה שהנעילה הזו היא הגורם המדויק לכשל המשתמש או שהיא מוחזקת לאורך כל שלב החילוץ. בדיקת shutdown ב־WinUI נפרדת מבדיקת helper; לא בוצע E2E משולב דרך לחיצה פיזית או מקור GitHub חי.
+
+תיקייה: C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.3-lockfix. ZIP: C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.3-lockfix-win-x64.zip. App: 180,848,180 בתים; ZIP: 68,962,516 בתים. SHA-256: 94ED623E34836D7773F9F1E7DD6FF581F7D97626E10EEBFFDFC686F0266576B4. תוצר מקומי חדש בלבד, לא Release ציבורי; version.json ממשיך לתאר 0.1.2 שפורסמה. ZIP הישנות 0.1.1 ו־0.1.2 אומתו ללא שינוי. אין שינוי בעותק המשתמש ב־Downloads ואין התקנת/תיקון Defender.
+
+מגבלה תפעולית: helper מגיע מהגרסה המפעילה את העדכון, ולכן 0.1.1 עדיין משתמשת בקוד הישן גם אם יעד ההורדה חדש. אין טענה שהתיקון הוחל על העותק הישן. להפעלת התיקון יש לחלץ 0.1.3 לתיקייה נפרדת; לשמר Data ו־OfflinePayloads ולגבות לפני העברתם, בלי להעביר את תיקיית .updates הישנה. המעבר החי 0.1.1 -> 0.1.2 נשאר FAIL לפי דיווח המשתמש, והגורם המקורי המדויק לא הוכח. קבלה ידנית מלאה של 0.1.3 בממשק/USB/מחשב נקי/Defender נשארת ללא אימות. אישור תיקון זה מאפשר fixtures מבודדים בלבד; אינו מוחק את גבולות השימור של עותק המשתמש.
+
+## תיקון תיאום סגירה והחלפה — 29.9.2026
+
+המשתמש ביקש לטפל בכשל. היקף: סיום מפורש של WinUI לאחר הכנת helper, המתנה להורה לפני קריאת App הנוכחית, המתנה מוגבלת לשחרור נעילות זמניות לפני rename, אבחון שלב/נתיב/חריגה ושימור הגרסה התקינה. אין הריגת תהליך חיצוני או Defender. בדיקות על fixtures חדשים בלבד, לא מעבר עותק המשתמש 0.1.1 -> 0.1.2. שימור Releases ותוצרים קודמים. מספר גרסה הבא 0.1.3 עבור תיקון מקומי חדש; אין פרסום מרוחק במסגרת התיקון.
+תנאי הצלחה: בדיקות נעילה זמנית/מתמשכת/ביטול, המתנה להורה עם קובץ נעול, success/rollback/session, build וכל tests, אריזה חדשה ואימות. smoke פתיחה ללא מנהל אם אין מופע משתמש; אין כיבויו בכוח. אין לטעון שהגורם המדויק של הכשל המקורי שוחזר ללא ראיה.
+
+## אבחון בדיקת המשתמש ואיחוד מקור הגרסה — 29.9.2026
+
+בדיקת עדכון ידנית 0.1.1 -> 0.1.2 דרך ממשק המשתמש: **FAIL לפי צילום המשתמש והלוג המקומי**, לא PASS. השורות ההיסטוריות PENDING מתארות את מצב הסגירה לפני דיווח זה. ב־Downloads/.updates/update-error.log נרשם ב־05:10:30: The process cannot access the file because it is being used by another process. ZIP שהורד תואם SHA-256 ED9D866729043145CFBD144277E5F63285A1C812B331D09ABB3F45FC3F6295A7. כל 456 קובצי App שנותרו תואמים למניפסט 0.1.1; אין previous-* בתיקיית העדכון. זו ראיה לשימור המקור ולכשל מקומי עם נעילה, אך הלוג שומר Message בלבד ולכן הקובץ והתהליך הספציפיים אינם ידועים. לא שוחזר הכשל ולא הופעל updater/helper או עותק המשתמש על ידי הסוכן. אין טענה שתוקנה הנעילה.
+
+איחוד הגרסה המקומי הושלם: Directory.Build.props הוא מקור מספר הגרסה היחיד. AppIdentity ב־Core קורא את גרסת ה־assembly שנוצרה ב־MSBuild ומציג major.minor.patch; UpdateSession ובקר פרטי הממשק משתמשים בו. המספר הקשיח הוסר מ־UpdateSession ומ־XAML. מניפסט האריזה כבר נגזר מה־EXE; version.json הוא metadata של הגרסה שפורסמה ומאומת בנפרד ב־workflow. גרסאות fixtures ותיעוד היסטורי אינן מקורות גרסה של האפליקציה.
+
+בדיקות שהורצו לאחר השינוי: dotnet build MivtzarNaki.slnx --nologo — PASS, 0 אזהרות/שגיאות; dotnet test tests/MivtzarNaki.Tests/MivtzarNaki.Tests.csproj --nologo — 53/53 PASS, ללא דילוגים. הבדיקה החדשה משווה את גרסת בדיקת העדכון והטקסט המוצג ל־InformationalVersion של assembly Windows. git diff --check עבר. אין smoke/UI חדש, publish, ZIP חדש, push או Release חדש. השינוי בקוד בלבד וטרם נמסר בבינריים; 0.1.1/0.1.2 שפורסמו והתוצרים נשמרו. אין שינוי Defender. הצעד הבא לנעילה הוא אבחון עם נתיב/שלב ופרטי חריגה מלאים ובדיקה בטוחה בעותק מבודד, בכפוף לגבולות בדיקת המשתמש; אין לקבוע איזה תהליך אשם מהראיות הקיימות.
+
+## אבחון כשל המשתמש ואיחוד גרסה — 29.9.2026
+
+היקף: קריאת לוגים בלבד מעותק Downloads; מקור גרסה יחיד ב־Directory.Build.props, קריאת assembly עבור בדיקת עדכון וטקסט פרטי הממשק. אין שינוי Defender, הפעלת updater, שינוי עותק המשתמש, אריזה או פרסום Release חדש. שימור התוצרים הקיימים.
+תנאי הצלחה: אין גרסה קשיחה בקוד/ב־XAML; גרסת runtime תואמת metadata של assembly וגרסת הבנייה; build וכל suite עוברים. בדיקת העדכון הידנית המדווחת נכשלה ואינה PASS. אין חזרה על המעבר על ידי הסוכן.
+
+
 ## Release 0.1.2 פורסם; בדיקת המשתמש ממתינה — 29.9.2026
 
 היקף מינימלי: שינוי מספר הגרסה ב־Directory.Build.props, ב־UpdateSession.AppVersion ובטקסט הגרסה הקיים ב־MainWindow.xaml; אריזה חדשה, תיעוד ופרסום v0.1.2 עם metadata מתאים. אין שינוי לוגיקה, מבנה UI, Defender, תלויות או updater. תצוגת הפרטים הייתה עדיין טקסט 0.1.0 קבוע; תוקנה ל־0.1.2 כדי לאפשר זיהוי ידני. git status/diff נקיים בתחילת העבודה; Release/tag v0.1.2 אינם קיימים (404). נרשמה תמונת Release v0.1.1 ותגו ב־artifacts/release-0.1.2-preflight.json; אריזת 0.1.1 אומתה בקריאה בלבד.

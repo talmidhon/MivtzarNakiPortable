@@ -19,6 +19,7 @@ public sealed partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        AppVersionText.Text = $"מבצר נקי {AppIdentity.DisplayVersion} · Windows x64";
         RTLHelper.Apply(this, Root);
         AppWindow.Resize(new global::Windows.Graphics.SizeInt32(660, 860));
         if (Enum.TryParse<ElementTheme>(_session.Settings.Theme, out var theme)) Root.RequestedTheme = theme;
@@ -87,7 +88,8 @@ public sealed partial class MainWindow : Window
     {
         await Task.Delay(500);
         await File.WriteAllTextAsync(Path.Combine(_session.Environment.Data, "smoke-test.txt"), $"UI loaded\nPC={ComputerVersion.Text}\nUSB={UsbVersion.Text}\nServer={ServerVersion.Text}\nRoot={_session.Environment.Root}\nElevated={DefenderSystem.IsAdministrator()}\nRTL={Root.FlowDirection}\nScale={Root.XamlRoot.RasterizationScale}\nTheme={Root.ActualTheme}\nViewportTheme={Viewport.ActualTheme}\nFixture={_fixture ?? "none"}\nComputerStatus={ComputerStatus.Text}\nUsbStatus={UsbStatus.Text}\nWindow={AppWindow.Size.Width}x{AppWindow.Size.Height}");
-        Close();
+        if (_fixture is not null && Environment.GetCommandLineArgs().Contains("--update-shutdown-fixture")) ExitForAppUpdate();
+        else Close();
     }
     private async Task RefreshAsync(bool local)
     {
@@ -236,8 +238,17 @@ public sealed partial class MainWindow : Window
     {
         StatusText.Text = "מכין את עדכון מבצר נקי…";
         await _session.UpdateAppAsync(CreateProgress(), token);
-        _installing = false; Close();
+        ExitForAppUpdate();
     });
+    private void ExitForAppUpdate()
+    {
+        // Closing the window alone is not the update handoff. End the WinUI
+        // application so the helper can observe process exit and release App files.
+        _installing = false;
+        _timer.Stop(); _contrastTimer.Stop(); _lifetime.Cancel();
+        Close();
+        Application.Current.Exit();
+    }
     private void Cancel_Click(object sender, RoutedEventArgs args) => _operation?.Cancel();
     private void Theme_Click(object sender, RoutedEventArgs args)
     {

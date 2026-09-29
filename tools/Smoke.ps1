@@ -1,4 +1,4 @@
-param([string]$Folder = 'artifacts/MivtzarNaki-delivery', [switch]$VisualOnly)
+param([string]$Folder = 'artifacts/MivtzarNaki-delivery', [switch]$VisualOnly, [switch]$UpdateShutdown)
 $ErrorActionPreference = 'Stop'
 $repo = Split-Path $PSScriptRoot -Parent
 $root = [IO.Path]::GetFullPath((Join-Path $repo $Folder))
@@ -13,6 +13,7 @@ $results = @()
 foreach ($theme in @('dark','light')) {
     foreach ($state in @('loading','missing','success','offline','failure','progress')) {
         $arguments = @('--smoke-test', "--ui-fixture=$state", "--theme=$theme")
+        if ($UpdateShutdown) { $arguments += '--update-shutdown-fixture' }
         if ($state -eq 'progress') { $arguments += '--small-window' }
         $started = [DateTime]::UtcNow
         $process = Start-Process -FilePath $exe -ArgumentList $arguments -WorkingDirectory $env:WINDIR -WindowStyle Hidden -PassThru
@@ -28,6 +29,7 @@ foreach ($theme in @('dark','light')) {
         Write-Output "PASS $state/$theme"
     }
 }
-$evidence = Join-Path $repo ('artifacts/smoke-' + (Split-Path $root -Leaf) + '.json')
+$suffix = if ($UpdateShutdown) { '-update-shutdown' } else { '' }
+$evidence = Join-Path $repo ('artifacts/smoke-' + (Split-Path $root -Leaf) + $suffix + '.json')
 $results | ConvertTo-Json -Depth 4 | Set-Content -Encoding UTF8 -LiteralPath $evidence
 Write-Output "Evidence: $evidence"

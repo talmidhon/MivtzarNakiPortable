@@ -164,6 +164,36 @@ public sealed class RevisionTests : IDisposable
             await Assert.ThrowsAsync<IOException>(() => FolderPackage.ReplaceAsync(_root, staged, _ => Task.CompletedTask, default));
         Assert.Equal("old", await File.ReadAllTextAsync(Path.Combine(app, "MivtzarNaki.exe")));
     }
+    [Fact]
+    public async Task TemporaryLockIsReleasedBeforeReplacement()
+    {
+        var app = Path.Combine(_root, "App"); var staged = Path.Combine(_root, ".updates", "stage");
+        await MakeApp(app, "old"); await MakeApp(staged, "new");
+        using var locked = new FileStream(Path.Combine(app, "MivtzarNaki.dll"), FileMode.Open, FileAccess.Read, FileShare.Read);
+        var swap = FolderPackage.ReplaceAsync(_root, staged, _ => Task.CompletedTask, default, TimeSpan.FromSeconds(2));
+        Assert.False(swap.IsCompleted);
+        Assert.Empty(Directory.GetDirectories(Path.Combine(_root, ".updates"), "previous-*"));
+        locked.Dispose();
+        await swap;
+        Assert.Equal("new", await File.ReadAllTextAsync(Path.Combine(app, "MivtzarNaki.exe")));
+    }
+    [Fact]
+    public async Task PersistentLockAndCancellationPreserveAppAndStage()
+    {
+        var app = Path.Combine(_root, "App"); var staged = Path.Combine(_root, ".updates", "stage");
+        await MakeApp(app, "old"); await MakeApp(staged, "new");
+        var file = Path.Combine(app, "MivtzarNaki.dll");
+        using var locked = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read);
+        var error = await Assert.ThrowsAsync<IOException>(() => FolderPackage.ReplaceAsync(_root, staged, _ => Task.CompletedTask, default, TimeSpan.FromMilliseconds(250)));
+        Assert.Contains(file, error.Message);
+        using var cancel = new CancellationTokenSource();
+        var swap = FolderPackage.ReplaceAsync(_root, staged, _ => Task.CompletedTask, cancel.Token, TimeSpan.FromSeconds(10));
+        cancel.Cancel();
+        await Assert.ThrowsAnyAsync<OperationCanceledException>(() => swap);
+        Assert.Equal("old", await File.ReadAllTextAsync(Path.Combine(app, "MivtzarNaki.exe")));
+        Assert.Equal("new", await File.ReadAllTextAsync(Path.Combine(staged, "MivtzarNaki.exe")));
+        Assert.Empty(Directory.GetDirectories(Path.Combine(_root, ".updates"), "previous-*"));
+    }
     [Theory]
     [InlineData("App/../escape.exe")]
     [InlineData("App/C:/escape.exe")]

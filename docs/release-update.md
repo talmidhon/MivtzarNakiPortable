@@ -12,7 +12,7 @@
 
 ## פרסום גרסה נוספת
 
-1. עדכן Directory.Build.props ואת UpdateSession.AppVersion יחד; אל תשנה גרסה שכבר פורסמה. הגדל patch לתיקון תפעולי תואם, minor לשינוי התנהגות משמעותי.
+1. עדכן את Version ב־Directory.Build.props בלבד; AppIdentity, הממשק ו־UpdateSession.AppVersion נגזרים מה־assembly; אל תשנה גרסה שכבר פורסמה. הגדל patch לתיקון תפעולי תואם, minor לשינוי התנהגות משמעותי.
 2. build ו־tests; Package ל־Output חדש בתוך artifacts. ValidatePackage משווה כל byte באמצעות SHA-256. Smoke ו־TestPortableUpdate משתמשים ב־fixtures בלבד.
 3. סקור את הקבצים המיועדים ל־Git ואת ה־ZIP; אין להוסיף secrets, Data, logs, research או חבילות Defender. commit/push ותג חדש בלבד.
 4. workflow build.yml בונה ובודק תג, שומר artifact CI ויוצר draft רק אם לא קיים Release לתג. הוא אינו דורס assets של Release קיים. אין self-signing של ה־EXE: תעודה עצמית אינה זהות מפרסם מהימנה.

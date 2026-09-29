@@ -15,6 +15,9 @@ using var session = new UpdateSession(new HttpClient(new FixtureHttp(archive, ex
 session.Settings = session.Settings with { UpdateFeed = "https://raw.githubusercontent.com/talmidhon/fixture-only/main/version.json" };
 await session.CheckNetworkAsync(default);
 await session.UpdateAppAsync(new Progress<TransferProgress>(), default);
+// Regression: the helper must not validate App while its parent still owns a file.
+using (var parentLock = new FileStream(Path.Combine(session.Environment.Root, "App", FolderPackage.ManifestName), FileMode.Open, FileAccess.Read, FileShare.None))
+    await Task.Delay(2000);
 await File.WriteAllTextAsync(Path.Combine(session.Environment.Data, "session-result.txt"), "UpdateAppAsync returned; parent exiting");
 return 0;
 
