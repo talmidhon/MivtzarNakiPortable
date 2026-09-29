@@ -23,7 +23,7 @@ public sealed class UpdateSession : IDisposable
     public RemotePayload? Remote { get; private set; }
     public AppRelease? NewApp { get; private set; }
     public string NetworkMessage { get; private set; } = "בודק חיבור…";
-    public static Version AppVersion { get; } = new(0, 1, 1);
+    public static Version AppVersion { get; } = new(0, 1, 2);
     public string EffectiveUpdateFeed => string.IsNullOrWhiteSpace(Settings.UpdateFeed) ? Distribution.UpdateFeed : Settings.UpdateFeed;
     public bool CanDownload => Remote is not null && UpdatePolicy.NeedsDownload(Local, Remote);
     public bool CanInstall => UpdatePolicy.CanInstall(Local, Computer);

@@ -47,7 +47,7 @@
           <TextBlock Text="חבילת Defender ב־USB"/><TextBlock x:Name="UsbVersion" FlowDirection="LeftToRight" HorizontalAlignment="Right" IsTextSelectionEnabled="True"/>
           <TextBlock Text="Defender בשרת"/><TextBlock x:Name="ServerVersion" FlowDirection="LeftToRight" HorizontalAlignment="Right" IsTextSelectionEnabled="True"/>
           <TextBlock x:Name="NetworkDetail" TextWrapping="Wrap"/>
-          <TextBlock Text="מבצר נקי 0.1.0 · Windows x64"/>
+          <TextBlock Text="מבצר נקי 0.1.2 · Windows x64"/>
           <TextBlock Text="תיקיית חבילות Defender"/><TextBlock x:Name="LocationText" FlowDirection="LeftToRight" TextAlignment="Left" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
           <Button Content="החלף בהיר / כהה" Click="Theme_Click" ToolTipService.ToolTip="שנה את ערכת הצבעים של מבצר נקי"/>
         </StackPanel>

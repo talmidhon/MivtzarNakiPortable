@@ -1,5 +1,26 @@
-﻿# תוכנית העבודה לקודקס
+# תוכנית העבודה לקודקס
 
+## משימה פעילה: Release 0.1.2 לבדיקת המשתמש בלבד — 29.9.2026
+
+היקף מינימלי: שינוי מספר הגרסה ב־Directory.Build.props, ב־UpdateSession.AppVersion ובטקסט הגרסה הקיים ב־MainWindow.xaml; אריזה חדשה, תיעוד ופרסום v0.1.2 עם metadata מתאים. אין שינוי לוגיקה, מבנה UI, Defender, תלויות או updater. תצוגת הפרטים הייתה עדיין טקסט 0.1.0 קבוע; תוקנה ל־0.1.2 כדי לאפשר זיהוי ידני. git status/diff נקיים בתחילת העבודה; Release/tag v0.1.2 אינם קיימים (404). נרשמה תמונת Release v0.1.1 ותגו ב־artifacts/release-0.1.2-preflight.json; אריזת 0.1.1 אומתה בקריאה בלבד.
+
+מועמד האריזה הראשון artifacts/MivtzarNaki-0.1.2 נבנה לפני תיקון טקסט הפרטים ונשמר כראיה בלבד, לא לפרסום. smoke ראשון לא נטען כי מופע המשתמש ב־Downloads מחזיק ב־mutex; אין לסגור אותו בכוח. אחרי התיקון ייארז יעד חדש artifacts/MivtzarNaki-0.1.2-final, וכל בדיקות התוצר ייעשו עליו לפני פרסום.
+
+תנאי הצלחה: build/tests, publish ליעד חדש artifacts/MivtzarNaki-0.1.2, smoke של 0.1.2 בלבד, helper fixtures חדשים המבוססים על 0.1.2 בלבד לפני פרסום, אימות ZIP/גרסאות/hash, commit/push main, tag/Release חדשים, assets תקינים ו־metadata/workflows מוצלחים, שימור מלא של 0.1.1. לאחר פרסום אין הפעלת אפליקציה, updater/helper או E2E. בדיקת metadata אחרי פרסום היא קריאה בלבד דרך HTTP/API, לא דרך האפליקציה.
+
+**בדיקת עדכון ידנית 0.1.1 -> 0.1.2 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש.** אין להפעיל 0.1.1, לעדכן עותק שלה, להריץ TestLiveUpdate/ProbeDistribution/TestPublishedPackageFailure או לסמן את הבדיקה כ־PASS. ההוראה החדשה גוברת על תכנון E2E ההיסטורי להלן. עותק ההתחלה למשתמש: artifacts/MivtzarNaki-0.1.1/App/MivtzarNaki.exe, בלי הפעלה מצדי.
+
+### אימות מקומי 0.1.2 לפני פרסום — 29.9.2026
+
+- build מלא: 0 אזהרות ושגיאות; tests: 52/52 PASS, ללא דילוגים.
+- Package.ps1 -Output artifacts/MivtzarNaki-0.1.2-final: publish ואריזה PASS; ValidatePackage.ps1: 457/457 PASS.
+- Smoke.ps1 -Folder artifacts/MivtzarNaki-0.1.2-final: 12/12 PASS, ללא מנהל, RTL, dark/light, DPI 150%, חלון קטן, נתיב עברי/רווחים ו־cwd Windows. זו טעינת XAML, לא קבלה חזותית חדשה. המשתמש סגר בעצמו את המופע הקודם לפני הבדיקה. הנתונים הועברו ל־artifacts/smoke-0.1.2-data.
+- TestPortableUpdate.ps1 על אותה תיקיית 0.1.2: success/rollback/session PASS בעותקי fixtures חדשים בלבד; דוח artifacts/updater-fixture-464ed6855cde48eeb29f55cdd6061e1f/results.json. לא בוצע מעבר 0.1.1 -> 0.1.2.
+- תיקייה: C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.2-final; ZIP: אותו נתיב עם הסיומת -win-x64.zip.
+- App: 180,846,156 בתים; ZIP: 68,961,600 בתים; SHA-256: ED9D866729043145CFBD144277E5F63285A1C812B331D09ABB3F45FC3F6295A7.
+- EXE FileVersion 0.1.2.0 ומניפסט 0.1.2; פרט הגרסה הקיים בממשק עודכן ל־0.1.2. אין שינוי לוגיקה או תלויות.
+- עותק המשתמש ב־C:\Users\admin\Downloads\MivtzarNaki-win-x64\App\MivtzarNaki.exe אומת בקריאה בלבד כ־0.1.1; 456 גיבובי App תואמים. זהו עותק ההתחלה המומלץ לבדיקה הידנית; לא הופעל ולא עודכן על ידי הסוכן.
+- בדיקת עדכון ידנית 0.1.1 -> 0.1.2 דרך ממשק המשתמש: **PENDING / ממתינה לבדיקת המשתמש**. קבלה חיצונית של הבינריים החדשים אינה מיוחסת לקבלת baseline.
 ## מקור GitHub חי וגרסה 0.1.1 — תוצאות, 29.9.2026
 
 הוקם https://github.com/talmidhon/MivtzarNakiPortable ציבורי בענף main, לפי הייחוס AcerChargeLimiter שאומת מול החשבון המחובר. המאגרים הקודמים לא שונו. v0.1.1 פורסם עם MivtzarNaki-win-x64.zip ו־SHA256SUMS.txt; feed אמיתי ב־raw/main/version.json. התג dc4d9df נשמר; תיקוני כלי פרסום ותיעוד ב־main אינם משנים את הבינריים.

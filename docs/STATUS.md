@@ -1,5 +1,22 @@
-﻿# מצב העבודה והמשך
+# מצב העבודה והמשך
 
+## הכנת Release 0.1.2 — לבדיקת המשתמש בלבד
+
+0.1.2 מיועדת רק ליצור עדכון אמיתי זמין לבדיקת המשתמש מתוך 0.1.1. העבודה היא שינוי מספר גרסה, בדיקות מקומיות מותרות, אריזה חדשה ופרסום; אין שינוי עסקי. עותקי 0.1.1 ותוצריה נשמרים. Release v0.1.1, tag ו־assets נרשמו לאימות שימור; v0.1.2 אינו קיים בתחילת העבודה.
+
+**בדיקת עדכון ידנית 0.1.1 -> 0.1.2 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש.** אין להריץ מעבר זה, לפתוח 0.1.1 או להפעיל updater/helper לאחר פרסום. תוצאות E2E ההיסטוריות להלן חלות על 0.1.0 -> 0.1.1 בלבד. המשתמש מתחיל מ־`C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.1\App\MivtzarNaki.exe`; הוא לא מופעל על ידי הסוכן.
+
+### אימות מקומי 0.1.2 לפני פרסום — 29.9.2026
+
+- build מלא: 0 אזהרות ושגיאות; tests: 52/52 PASS, ללא דילוגים.
+- Package.ps1 -Output artifacts/MivtzarNaki-0.1.2-final: publish ואריזה PASS; ValidatePackage.ps1: 457/457 PASS.
+- Smoke.ps1 -Folder artifacts/MivtzarNaki-0.1.2-final: 12/12 PASS, ללא מנהל, RTL, dark/light, DPI 150%, חלון קטן, נתיב עברי/רווחים ו־cwd Windows. זו טעינת XAML, לא קבלה חזותית חדשה. המשתמש סגר בעצמו את המופע הקודם לפני הבדיקה. הנתונים הועברו ל־artifacts/smoke-0.1.2-data.
+- TestPortableUpdate.ps1 על אותה תיקיית 0.1.2: success/rollback/session PASS בעותקי fixtures חדשים בלבד; דוח artifacts/updater-fixture-464ed6855cde48eeb29f55cdd6061e1f/results.json. לא בוצע מעבר 0.1.1 -> 0.1.2.
+- תיקייה: C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.2-final; ZIP: אותו נתיב עם הסיומת -win-x64.zip.
+- App: 180,846,156 בתים; ZIP: 68,961,600 בתים; SHA-256: ED9D866729043145CFBD144277E5F63285A1C812B331D09ABB3F45FC3F6295A7.
+- EXE FileVersion 0.1.2.0 ומניפסט 0.1.2; פרט הגרסה הקיים בממשק עודכן ל־0.1.2. אין שינוי לוגיקה או תלויות.
+- עותק המשתמש ב־C:\Users\admin\Downloads\MivtzarNaki-win-x64\App\MivtzarNaki.exe אומת בקריאה בלבד כ־0.1.1; 456 גיבובי App תואמים. זהו עותק ההתחלה המומלץ לבדיקה הידנית; לא הופעל ולא עודכן על ידי הסוכן.
+- בדיקת עדכון ידנית 0.1.1 -> 0.1.2 דרך ממשק המשתמש: **PENDING / ממתינה לבדיקת המשתמש**. קבלה חיצונית של הבינריים החדשים אינה מיוחסת לקבלת baseline.
 ## Release 0.1.1 — מקור הפצה חי, 29.9.2026
 
 מאגר ציבורי חדש: [talmidhon/MivtzarNakiPortable](https://github.com/talmidhon/MivtzarNakiPortable), ענף main. [Release v0.1.1](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.1) פורסם עם MivtzarNaki-win-x64.zip ו־SHA256SUMS.txt. תג v0.1.1 מצביע ל־dc4d9df1c6901ee191ab84481d0072932d527926, מקור בינריי האפליקציה; תיקוני כלי פרסום ותיעוד נוספו ב־main בלי להזיז את התג או לשנות את הנכסים. לא שונה אף מאגר קודם. הייחוס שנבדק בפועל הוא [AcerChargeLimiter](https://github.com/talmidhon/AcerChargeLimiter), התואם גם למקור המחקר המתועד.

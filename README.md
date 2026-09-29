@@ -11,13 +11,15 @@
 
 ההורדה אינה מתקינה דבר. גרסאות זהות וישנות אינן מותקנות. הרשאות מנהל ותיקון שירות מבוקשים רק בעת צורך; תיקון דורש הסבר והסכמה.
 
-גרסה: **0.1.1**. מאגר: [talmidhon/MivtzarNakiPortable](https://github.com/talmidhon/MivtzarNakiPortable). המסירה המקומית: `artifacts/MivtzarNaki-0.1.1`, וה־ZIP: `artifacts/MivtzarNaki-0.1.1-win-x64.zip`. שם הנכס ב־Release הוא `MivtzarNaki-win-x64.zip`; זהו אותו ZIP ללא שינוי בתוכן. התלויות כלולות בתיקיית App, ולא ב־EXE יחיד. אין להעביר רק את ה־EXE. Data ו־OfflinePayloads נוצרות לצד App.
+גרסה: **0.1.2**. מאגר: [talmidhon/MivtzarNakiPortable](https://github.com/talmidhon/MivtzarNakiPortable). המסירה המקומית: `artifacts/MivtzarNaki-0.1.2-final`, וה־ZIP: `artifacts/MivtzarNaki-0.1.2-final-win-x64.zip`. שם הנכס ב־Release הוא `MivtzarNaki-win-x64.zip`; זהו אותו ZIP ללא שינוי בתוכן. התלויות כלולות בתיקיית App, ולא ב־EXE יחיד. אין להעביר רק את ה־EXE. Data ו־OfflinePayloads נוצרות לצד App.
 
-גודל App: **180,845,644 בתים (172.468 MiB), 457 קבצים**. ZIP: **68,961,256 בתים (65.767 MiB)**. חבילת Defender אינה כלולה; חבילת baseline נמדדה בנפרד: **221,960,616 בתים (211.678 MiB)**. גרסאות עתידיות של חבילת Defender עשויות להיות בגודל אחר.
+גודל App: **180,846,156 בתים (172.468 MiB), 457 קבצים**. ZIP: **68,961,600 בתים (65.767 MiB)**. חבילת Defender אינה כלולה; חבילת baseline נמדדה בנפרד: **221,960,616 בתים (211.678 MiB)**. גרסאות עתידיות של חבילת Defender עשויות להיות בגודל אחר.
 
 baseline 0.1.0 המאושר נשמר ב־`artifacts/MivtzarNaki-delivery` וב־`artifacts/MivtzarNaki-delivery-win-x64.zip`, עם SHA-256 ‏`892CDDFCA21012AFFD312F69CB801F1082C6D40C30B47CE4519D65BCF74420E8`. המשתמש דיווח על קבלה מוצלחת ב־Windows נקי ללא runtime נוסף, USB פיזי בין מחשב מקוון למנותק, התקנת Defender אמיתית עם UAC ואימות גרסה, והבדיקות החזותיות שביצע כולל RTL/DPI/חלון קטן. דיווח זה חל על 0.1.0; אינו מחליף קבלה חיצונית חוזרת של 0.1.1. Windows 10 דווקא, HighContrast וקורא מסך לא דווחו כבדיקות שעברו. יעד ה־API המינימלי בפרויקט הוא Windows 10 build 19041 x64, בגרסאות הנתמכות בתלויות.
 
-SHA-256 ZIP של **0.1.1**: `C99AA720E6A2BFD8558BD8F532FB82BCD7A66B3C63BA7084B1C35AAA40760549`. כל 457 רשומותיו הושוו לקובצי המסירה. `SHA256SUMS.txt` מפורסם לצד ה־ZIP.
+SHA-256 ZIP של **0.1.2**: `ED9D866729043145CFBD144277E5F63285A1C812B331D09ABB3F45FC3F6295A7`. כל 457 רשומותיו הושוו לקובצי המסירה. `SHA256SUMS.txt` מפורסם לצד ה־ZIP.
+
+**בדיקת עדכון ידנית 0.1.1 -> 0.1.2 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש.** לא בוצע מעבר זה; בדיקות helper של 0.1.2 נעשו לפני הפרסום על fixtures חדשים בלבד. עותק המשתמש ב־Downloads נשמר ללא שינוי.
 
 ## בנייה ובדיקות
 
@@ -26,10 +28,10 @@ SHA-256 ZIP של **0.1.1**: `C99AA720E6A2BFD8558BD8F532FB82BCD7A66B3C63BA7084B1C
 ```powershell
 dotnet build MivtzarNaki.slnx --nologo
 dotnet test tests/MivtzarNaki.Tests/MivtzarNaki.Tests.csproj --nologo
-powershell -NoProfile -ExecutionPolicy Bypass -File tools/Package.ps1 -Output artifacts/MivtzarNaki-0.1.1
-powershell -NoProfile -ExecutionPolicy Bypass -File tools/ValidatePackage.ps1 -Folder artifacts/MivtzarNaki-0.1.1
-powershell -NoProfile -ExecutionPolicy Bypass -File tools/Smoke.ps1 -Folder artifacts/MivtzarNaki-0.1.1
-powershell -NoProfile -ExecutionPolicy Bypass -File tools/TestPortableUpdate.ps1 -Folder artifacts/MivtzarNaki-0.1.1
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/Package.ps1 -Output artifacts/MivtzarNaki-0.1.2-final
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/ValidatePackage.ps1 -Folder artifacts/MivtzarNaki-0.1.2-final
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/Smoke.ps1 -Folder artifacts/MivtzarNaki-0.1.2-final
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/TestPortableUpdate.ps1 -Folder artifacts/MivtzarNaki-0.1.2-final
 ```
 
 Package מריץ dotnet publish במצב Release לתיקיית App תחת Output, מסיר PDB, קורא את גרסת ה־EXE ויוצר מניפסט ו־ZIP עם נתיבי App/. הוא מודד גדלים ומסרב לדרוס יעד קיים; להרצה חוזרת יש לבחור Output חדש.
@@ -44,7 +46,7 @@ TestPortableUpdate מפעיל helper אמיתי על עותקי fixture חדשי
 dotnet run --project tools/VerifyPayload -- artifacts/payload-verification
 ```
 
-**52/52 בדיקות** עברו עבור 0.1.1, כולל כל 39 הקודמות. build הסתיים ללא אזהרות או שגיאות; publish, אימות כל קובצי האריזה, 12/12 smoke ושלושת תרחישי ה־helper עברו. בדיקות Defender בפיתוח משתמשות ב־fakes בלבד. קבלת 0.1.0 במחשב ניסוי דווחה על ידי המשתמש; לא בוצעו התקנה או תיקון Defender במחשב הפיתוח. ראיות ומצב בדיקת המקור החי ב־[STATUS](docs/STATUS.md).
+**52/52 בדיקות** עברו עבור 0.1.2, כולל כל 39 הקודמות. build הסתיים ללא אזהרות או שגיאות; publish, אימות כל קובצי האריזה, 12/12 smoke ושלושת תרחישי ה־helper עברו. בדיקות Defender בפיתוח משתמשות ב־fakes בלבד. קבלת 0.1.0 במחשב ניסוי דווחה על ידי המשתמש; לא בוצעו התקנה או תיקון Defender במחשב הפיתוח. ראיות ומצב בדיקת המקור החי ב־[STATUS](docs/STATUS.md).
 
 בסבב ההיסטורי של 0.1.0 אומת גם תיקון פרטים בחלון קטן, כהה/בהיר ב־150%, ודיאלוג בדיקה וביטול; המשתמש הוסיף קבלה חזותית במצבים שבדק. HighContrast וקורא מסך אינם מסומנים כ־PASS. עבור 0.1.1 בוצעו publish ו־smoke חדשים; אין טענה לקבלה חזותית חיצונית חוזרת על גרסה זו.
 
@@ -58,9 +60,9 @@ dotnet run --project tools/VerifyPayload -- artifacts/payload-verification
 
 ```json
 {
-  "latest_version": "0.1.1",
-  "download_url": "https://github.com/talmidhon/MivtzarNakiPortable/releases/download/v0.1.1/MivtzarNaki-win-x64.zip",
-  "sha256": "C99AA720E6A2BFD8558BD8F532FB82BCD7A66B3C63BA7084B1C35AAA40760549",
+  "latest_version": "0.1.2",
+  "download_url": "https://github.com/talmidhon/MivtzarNakiPortable/releases/download/v0.1.2/MivtzarNaki-win-x64.zip",
+  "sha256": "ED9D866729043145CFBD144277E5F63285A1C812B331D09ABB3F45FC3F6295A7",
   "message": "עדכון מבצר נקי — תיקייה ניידת מלאה"
 }
 ```
