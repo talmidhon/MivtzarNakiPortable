@@ -1,0 +1,47 @@
+name: Build and Draft Portable Release
+on:
+  push:
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - run: dotnet build MivtzarNaki.slnx --nologo
+      - run: dotnet test tests/MivtzarNaki.Tests/MivtzarNaki.Tests.csproj --nologo
+      - name: Package portable folder
+        shell: powershell
+        run: |
+          ./tools/Package.ps1 -Output artifacts/ci-delivery
+          ./tools/ValidatePackage.ps1 -Folder artifacts/ci-delivery
+      - uses: actions/upload-artifact@v4
+        with:
+          name: portable-candidate
+          path: artifacts/ci-delivery-win-x64.zip
+      - name: Create draft only when this tag has no release
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_REPO: ${{ github.repository }}
+        run: |
+          if ($env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+$') { throw 'Invalid release tag' }
+          $manifest = Get-Content artifacts/ci-delivery/App/portable.manifest.json -Raw | ConvertFrom-Json
+          if ($manifest.Version -ne $env:RELEASE_TAG.Substring(1)) { throw 'Tag/version mismatch' }
+          gh release view $env:RELEASE_TAG --repo $env:RELEASE_REPO
+          if ($LASTEXITCODE -eq 0) { Write-Output 'Existing release preserved'; exit 0 }
+          Copy-Item artifacts/ci-delivery-win-x64.zip artifacts/MivtzarNaki-win-x64.zip
+          $hash = (Get-FileHash artifacts/MivtzarNaki-win-x64.zip -Algorithm SHA256).Hash
+          "$hash  MivtzarNaki-win-x64.zip" | Set-Content artifacts/SHA256SUMS.txt -Encoding ascii
+          gh release create $env:RELEASE_TAG artifacts/MivtzarNaki-win-x64.zip artifacts/SHA256SUMS.txt --repo $env:RELEASE_REPO --verify-tag --draft --title "מבצר נקי $env:RELEASE_TAG" --generate-notes
+          if ($LASTEXITCODE -ne 0) { throw 'Draft release failed' }

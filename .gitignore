@@ -1,0 +1,20 @@
+.research/
+**/bin/
+**/obj/
+.vs/
+artifacts/
+OfflinePayloads/
+Logs/
+*.user
+*.pdb
+TestResults/
+*.tmp
+Data/
+.updates/
+שמירת גרסאות לדיבוג/
+*.log
+*.key
+*.pfx
+*.pem
+.env
+.env.*

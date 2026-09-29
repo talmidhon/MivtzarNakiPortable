@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="src/MivtzarNaki.Core/MivtzarNaki.Core.csproj" />
+  <Project Path="src/MivtzarNaki.Windows/MivtzarNaki.Windows.csproj" />
+  <Project Path="src/MivtzarNaki.App/MivtzarNaki.App.csproj" />
+  <Project Path="tests/MivtzarNaki.Tests/MivtzarNaki.Tests.csproj" />
+</Solution>

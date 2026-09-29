@@ -1,0 +1,59 @@
+﻿<Window x:Class="MivtzarNaki.App.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Title="מבצר נקי">
+  <ScrollViewer x:Name="Viewport" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalContentAlignment="Stretch" HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Disabled">
+    <Grid x:Name="Root" FlowDirection="RightToLeft" Padding="12" RowSpacing="12" Width="{Binding ActualWidth, ElementName=Viewport}" MaxWidth="760" HorizontalAlignment="Stretch">
+      <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+      <Grid ColumnSpacing="12">
+        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <TextBlock Text="מבצר נקי" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center"/>
+        <Button x:Name="CheckButton" Grid.Column="1" Click="Check_Click" ToolTipService.ToolTip="רענן מצב ובדוק מול Microsoft" AutomationProperties.Name="רענן מצב ובדוק מול Microsoft" AccessKey="R"><SymbolIcon Symbol="Refresh"/></Button>
+      </Grid>
+      <Border Grid.Row="1" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="12">
+        <Grid RowSpacing="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+          <TextBlock Text="המחשב הזה" FontWeight="SemiBold"/>
+          <Grid Grid.Row="1" ColumnSpacing="10" MinHeight="44"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+            <FontIcon x:Name="ComputerIcon" FontSize="22" VerticalAlignment="Top" IsTextScaleFactorEnabled="True"/>
+            <TextBlock x:Name="ComputerStatus" Grid.Column="1" Text="קורא את מצב המחשב…" FontSize="18" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+          </Grid>
+          <TextBlock x:Name="ComputerDetail" Grid.Row="2" TextWrapping="Wrap" MinHeight="32" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+          <Grid Grid.Row="3" MinHeight="36">
+            <Button x:Name="InstallButton" Click="Install_Click" Visibility="Collapsed" ToolTipService.ToolTip="התקן את חבילת Defender המקומית במחשב הזה" AutomationProperties.Name="עדכן את המחשב" AccessKey="I"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE72E;"/><TextBlock Text="עדכן את המחשב"/></StackPanel></Button>
+            <Button x:Name="RepairButton" Click="Repair_Click" Visibility="Collapsed" ToolTipService.ToolTip="הצג הסבר לפני תיקון שירות Defender"><StackPanel Orientation="Horizontal" Spacing="8"><FontIcon Glyph="&#xE90F;"/><TextBlock Text="הצג פתרון לבעיה"/></StackPanel></Button>
+          </Grid>
+        </Grid>
+      </Border>
+      <Border Grid.Row="2" Background="{ThemeResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Padding="12">
+        <Grid RowSpacing="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+          <TextBlock Text="עדכון Defender ב־USB" FontWeight="SemiBold"/>
+          <Grid Grid.Row="1" ColumnSpacing="10" MinHeight="44"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+            <FontIcon x:Name="UsbIcon" FontSize="22" VerticalAlignment="Top"/>
+            <TextBlock x:Name="UsbStatus" Grid.Column="1" Text="בודק מידע מ־Microsoft…" FontSize="18" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+          </Grid>
+          <TextBlock x:Name="UsbDetail" Grid.Row="2" TextWrapping="Wrap" MinHeight="32" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+          <Grid Grid.Row="3" MinHeight="36"><Button x:Name="DownloadButton" Click="Download_Click" Visibility="Collapsed" ToolTipService.ToolTip="הורד ואמת חבילת Defender לשימוש מה־USB" AutomationProperties.Name="הורד עדכון ל־USB" AccessKey="D"><StackPanel Orientation="Horizontal" Spacing="8"><SymbolIcon Symbol="Download"/><TextBlock Text="הורד עדכון ל־USB"/></StackPanel></Button></Grid>
+        </Grid>
+      </Border>
+      <Grid Grid.Row="3" RowSpacing="8" MinHeight="64"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <TextBlock x:Name="AppStatus" Text="עדכון מבצר נקי: בודק…" TextWrapping="Wrap" Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+        <Grid Grid.Row="1" MinHeight="36"><Button x:Name="AppUpdateButton" Visibility="Collapsed" Click="AppUpdate_Click" ToolTipService.ToolTip="הורד והחלף את תיקיית מבצר נקי"><StackPanel Orientation="Horizontal" Spacing="8"><SymbolIcon Symbol="Download"/><TextBlock Text="עדכן את מבצר נקי"/></StackPanel></Button></Grid>
+      </Grid>
+      <Grid Grid.Row="4" RowSpacing="8" MinHeight="88"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <ProgressBar x:Name="Progress" Minimum="0" Maximum="100" Opacity="0" AutomationProperties.Name="התקדמות הפעולה"/>
+        <TextBlock Grid.Row="1" x:Name="StatusText" Text="קורא נתונים…" TextWrapping="Wrap" AutomationProperties.LiveSetting="Polite"/>
+        <Grid Grid.Row="2" MinHeight="36"><Button x:Name="CancelButton" Content="ביטול הפעולה" Click="Cancel_Click" Visibility="Collapsed" ToolTipService.ToolTip="בטל את ההורדה ושמור את החבילה התקינה הקודמת"/></Grid>
+      </Grid>
+      <Expander Grid.Row="5" Header="פרטים" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+        <StackPanel Spacing="8">
+          <TextBlock Text="Defender במחשב"/><TextBlock x:Name="ComputerVersion" FlowDirection="LeftToRight" HorizontalAlignment="Right" IsTextSelectionEnabled="True"/>
+          <TextBlock Text="חבילת Defender ב־USB"/><TextBlock x:Name="UsbVersion" FlowDirection="LeftToRight" HorizontalAlignment="Right" IsTextSelectionEnabled="True"/>
+          <TextBlock Text="Defender בשרת"/><TextBlock x:Name="ServerVersion" FlowDirection="LeftToRight" HorizontalAlignment="Right" IsTextSelectionEnabled="True"/>
+          <TextBlock x:Name="NetworkDetail" TextWrapping="Wrap"/>
+          <TextBlock Text="מבצר נקי 0.1.0 · Windows x64"/>
+          <TextBlock Text="תיקיית חבילות Defender"/><TextBlock x:Name="LocationText" FlowDirection="LeftToRight" TextAlignment="Left" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
+          <Button Content="החלף בהיר / כהה" Click="Theme_Click" ToolTipService.ToolTip="שנה את ערכת הצבעים של מבצר נקי"/>
+        </StackPanel>
+      </Expander>
+    </Grid>
+  </ScrollViewer>
+</Window>
+
+
