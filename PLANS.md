@@ -1,5 +1,17 @@
 # תוכנית העבודה לקודקס
 
+## שתי ההפצות הושלמו — 29.9.2026
+
+0.1.3 היא גרסת ההתחלה; 0.1.4 היא יעד העדכון. שתיהן פורסמו ב־GitHub עם assets וגיבובים כמפורט להלן. [בנייה 0.1.3](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36512982423), [metadata 0.1.3](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36513125775), [בנייה 0.1.4](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36514420387), [metadata 0.1.4](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36514437740): **PASS** בפועל. ה־workflows לא החליפו את נכסי המסירה המקומיים שהועלו. raw/main/version.json נקרא ב־HTTP בלבד ואומת: latest_version=0.1.4, כתובת ZIP תחת v0.1.4 ו־SHA-256 3D44F9C4651D62DCB9854D2B61BD395A8139288C5449613981022C4F90FEDE87. main סונכרן עם commit הבוט e9fef8b. כל 22 הקישורים המקומיים בתיעוד תקינים ו־git diff --check עבר.
+
+להתחלת בדיקה: הורד את ZIP מתוך Release v0.1.3 וחלץ לתיקייה חדשה; לחלופין העותק המקומי המדויק: C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.3-lockfix\App\MivtzarNaki.exe. פרטי הממשק אמורים להראות 0.1.3; יעד הבדיקה הוא 0.1.4. לא הופעל עותק זה אחרי פרסום ולא נלחץ כפתור העדכון על ידי הסוכן. בדיקת עדכון ידנית 0.1.3 -> 0.1.4 דרך ממשק המשתמש: **PENDING / ממתינה לבדיקת המשתמש**. אין טענה לקבלה חיצונית חדשה, מחשב נקי/USB/Defender או E2E של המעבר הזה. בדיקת 0.1.1 -> 0.1.2 ההיסטורית נותרת FAIL. תיקון מנגנון העדכון המקורי כלול בשתי הגרסאות החדשות, אבל הגורם המדויק לנעילה המקורית לא הוכח.
+
+### פרסום שתי ההפצות — 29.9.2026
+
+[Release 0.1.3](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.3), tag v0.1.3 -> 90c95fadcab013aa2fd7b2216da05c6982aeb23b; [Release 0.1.4](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.4), tag v0.1.4 -> 0d2ff432bf81c69114351183ddf634792a401208. בכל אחת MivtzarNaki-win-x64.zip ו־SHA256SUMS.txt, וה־digests הציבוריים תואמים בדיוק לתוצרים המקומיים. 0.1.3 משתמשת ב־ZIP שנבדק קודם בלי לארוז או לשנות אותו. 0.1.4 היא אריזה חדשה. upload ZIP ראשון של 0.1.4 נכשל ב־DNS ל־uploads.github.com; הטיוטה נשמרה עם checksum בלבד, הנכס החסר הועלה שוב בהצלחה, ורק אחרי אימות הגיבוב פורסמה Release. אין העלמה של ניסיון ההעלאה הכושל.
+
+workflows 0.1.3: build 36512982423 PASS; metadata 36513125775 PASS. פרסום metadata הראשון הושלם לפני פרסום 0.1.4. הקבצים המיועדים ל־Git נסרקו לדפוסי credentials ולנתיבים אסורים לפני commit/push; artifacts/research/Data/OfflinePayloads/logs לא פורסמו ב־Git. אין חבילת Defender באף asset. ZIP 0.1.1 ו־0.1.2 נשמרו; כל 456 גיבובי App בעותק המשתמש ב־Downloads אומתו שוב ללא שינוי. לא הופעלה אפליקציה או helper אחרי פרסום ולא בוצע עדכון 0.1.3 -> 0.1.4 על ידי הסוכן. הבדיקה בממשק נשארת PENDING למשתמש.
+
 ### גרסאות לבדיקה — תוצרים מאומתים
 
 - התחלה 0.1.3: artifacts/MivtzarNaki-0.1.3-lockfix; ZIP artifacts/MivtzarNaki-0.1.3-lockfix-win-x64.zip. App 180,848,180 בתים; ZIP 68,962,516 בתים; SHA-256 94ED623E34836D7773F9F1E7DD6FF581F7D97626E10EEBFFDFC686F0266576B4.
