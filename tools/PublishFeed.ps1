@@ -32,7 +32,8 @@ try {
   if([version]$old.latest_version -gt [version]$manifest.Version) { throw 'Metadata downgrade rejected' }
  }
  $feed=[ordered]@{latest_version=$manifest.Version;download_url=$asset[0].browser_download_url;sha256=$hash;message='עדכון מבצר נקי — תיקייה ניידת מלאה'}
- $feed | ConvertTo-Json | Set-Content -LiteralPath $oldPath -Encoding UTF8
+ # HTTP JSON must not carry a UTF-8 BOM: the baseline byte parser rejects it.
+ [IO.File]::WriteAllText($oldPath, ($feed | ConvertTo-Json) + "`n", (New-Object Text.UTF8Encoding($false)))
  Write-Output "Verified published release $Tag, SHA256=$hash"
 } finally {
  # Known, freshly created temporary directory; no repository or user data is removed.

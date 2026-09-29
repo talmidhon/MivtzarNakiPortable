@@ -25,7 +25,11 @@ $feed='https://raw.githubusercontent.com/talmidhon/MivtzarNakiPortable/main/vers
 $target=Join-Path $root 'App/MivtzarNaki.exe'
 $parent=Start-Process -FilePath $target -ArgumentList '--live-update', $feed -WorkingDirectory $env:WINDIR -WindowStyle Hidden -PassThru
 $done=Join-Path $root '.updates/helper-result.txt'
-for($n=0;$n -lt 240 -and -not (Test-Path -LiteralPath $done);$n++) { Start-Sleep -Milliseconds 500 }
+for($n=0;$n -lt 240 -and -not (Test-Path -LiteralPath $done);$n++) {
+ $parent.Refresh()
+ if($parent.HasExited -and $parent.ExitCode -ne 0) { throw "Live driver failed with exit $($parent.ExitCode); evidence $root" }
+ Start-Sleep -Milliseconds 500
+}
 if(-not (Test-Path -LiteralPath $done) -or (Get-Content -LiteralPath $done -Raw).Trim() -ne '0') { throw "Live update failed; evidence $root" }
 if(-not $parent.WaitForExit(15000)) { throw 'Parent did not exit' }
 $parent.Refresh()
