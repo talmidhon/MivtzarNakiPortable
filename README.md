@@ -1,5 +1,7 @@
 # מבצר נקי
 
+הפצות לבדיקה ידנית: [0.1.3 — גרסת ההתחלה](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.3), [0.1.4 — יעד העדכון](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.4). חלץ את ZIP של 0.1.3 לתיקייה חדשה והפעל App/MivtzarNaki.exe; לאחר בדיקה ועדכון מפורש צפויה גרסה 0.1.4 בפרטים. המעבר בממשק ממתין לבדיקת המשתמש ואינו PASS. התיעוד ההיסטורי להלן נשמר; המצב והגדלים העדכניים בראש STATUS.
+
 תיקון מקומי 0.1.3: סיום WinUI מפורש לצורך עדכון, המתנה להורה לפני קריאת App והמתנה מוגבלת לנעילות לפני החלפה. תוצר חדש ב־artifacts/MivtzarNaki-0.1.3-lockfix; אינו פורסם, וה־Release הציבורי נשאר 0.1.2. תוצאות ומגבלות מפורטות בראש STATUS ו־PLANS. אין שינוי בעותק המשתמש או Defender.
 
 מקור מספר גרסת האפליקציה בקוד הוא Directory.Build.props בלבד. AppIdentity קורא metadata של assembly עבור הממשק ובדיקת העדכון; האריזה נגזרת מה־EXE. איחוד זה נבדק מקומית (build, 53/53 tests), אך טרם נארז או פורסם. Release 0.1.2 הקיימת נשמרה; בדיקת המשתמש 0.1.1 -> 0.1.2 נכשלה בנעילת קובץ, כמפורט ב־STATUS.

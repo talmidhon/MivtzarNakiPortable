@@ -1,5 +1,12 @@
 # תוכנית העבודה לקודקס
 
+### גרסאות לבדיקה — תוצרים מאומתים
+
+- התחלה 0.1.3: artifacts/MivtzarNaki-0.1.3-lockfix; ZIP artifacts/MivtzarNaki-0.1.3-lockfix-win-x64.zip. App 180,848,180 בתים; ZIP 68,962,516 בתים; SHA-256 94ED623E34836D7773F9F1E7DD6FF581F7D97626E10EEBFFDFC686F0266576B4.
+- יעד 0.1.4: artifacts/MivtzarNaki-0.1.4-delivery; ZIP artifacts/MivtzarNaki-0.1.4-delivery-win-x64.zip. App 180,848,180 בתים; ZIP 68,962,519 בתים; SHA-256 3D44F9C4651D62DCB9854D2B61BD395A8139288C5449613981022C4F90FEDE87.
+- build/tests של 0.1.4 עברו בפועל: 0 אזהרות/שגיאות, 55/55 PASS. Package.ps1 -Output artifacts/MivtzarNaki-0.1.4-delivery ו־ValidatePackage.ps1 על אותה תיקייה עברו, 457/457 תואמים. Smoke.ps1 -Folder artifacts/MivtzarNaki-0.1.4-delivery -UpdateShutdown: 12/12 PASS ללא מנהל; דוח artifacts/smoke-MivtzarNaki-0.1.4-delivery-update-shutdown.json. Data הועברה לתיקיית ראיות smoke-0.1.4-data. בדיקות 0.1.3 כולל helper מתועדות בסעיף הקודם. לא הורץ helper חדש אחרי הפרסום ולא בוצע מעבר בין שתי הגרסאות.
+- יש להתחיל מהתיקייה או מה־ZIP של 0.1.3, בחילוץ חדש; אין צורך לפתוח או לשנות 0.1.1. ה־feed הסופי מיועד ל־0.1.4. בדיקת עדכון ידנית 0.1.3 -> 0.1.4 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש.
+
 ## שתי גרסאות הפצה לבדיקת המשתמש — 29.9.2026
 
 היקף: לפרסם 0.1.3 עם תיקון הסגירה ומקור גרסה יחיד באמצעות ה־ZIP המקומי שכבר נבדק, ולאחר מכן לבנות ולפרסם 0.1.4 זהה התנהגותית מלבד Version ב־Directory.Build.props. 0.1.3 היא עותק ההתחלה; feed הסופי מצביע ל־0.1.4. תוצרים/תגים/נכסים קיימים אינם נדרסים. אישור הפרסום הקודם והבקשה החדשה חלים על שתי ההפצות. אין בדיקת מעבר על ידי הסוכן, הפעלת העותק של המשתמש או Defender.
