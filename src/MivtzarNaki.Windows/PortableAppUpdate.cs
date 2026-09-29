@@ -18,7 +18,9 @@ public static class PortableAppUpdate
             Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
             File.Copy(source, destination);
         }
-        var start = new ProcessStartInfo(Path.Combine(helperDirectory, "MivtzarNaki.exe")) { UseShellExecute = false, CreateNoWindow = true };
+        // A process working directory holds the directory open on Windows.
+        // Never inherit the parent's App directory: it must be renamed below.
+        var start = new ProcessStartInfo(Path.Combine(helperDirectory, "MivtzarNaki.exe")) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = helperDirectory };
         foreach (var arg in new[] { "--apply-update", Environment.ProcessId.ToString(), Environment.ProcessPath!, candidate, hash }) start.ArgumentList.Add(arg);
         using var process = Process.Start(start) ?? throw new IOException("לא ניתן להתחיל את החלפת התוכנה.");
     }

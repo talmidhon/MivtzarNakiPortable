@@ -1,5 +1,15 @@
 # מצב העבודה והמשך
 
+## תיקון cwd והכנת זוג חדש 0.1.5 -> 0.1.6 — 29.9.2026
+
+הבדיקה הידנית 0.1.3 -> 0.1.4: FAIL לפי המשתמש. הלוג החדש ב־Downloads/.updates/update-error.log מצביע על Phase: release application files and replace App ועל Directory.Move לאחר שההורה יצא. StartReplacement הוריש תיקיית עבודה, וה־helper יכול לנעול App בעצמו. שוחזר מנגנון Windows בעותק נפרד: תהליך עם cwd App מנע rename באותה שגיאת שיתוף, ואחרי יציאתו rename הצליח; artifacts/cwd-lock-repro-47a7649060be4c32b2389647d8b054eb/results.json. הלוג המקורי אינו מתעד cwd, לכן זו אינה ראיה ישירה ל־cwd של התהליך המקורי.
+
+תיקון 0.1.5: WorkingDirectory של helper מוגדר במפורש לתיקיית helper המקומית. fixture session מתחיל כעת מתוך App במקום Windows כדי לכסות את התנאי שהבדיקות הקודמות החמיצו. build: 0 warnings/errors; tests 55/55; publish/Package/ValidatePackage: 457/457; helper success/rollback/session PASS, עם שימור נתונים (artifacts/updater-fixture-5cf5dbd1db7f40cca6e5e8b18193df65/results.json); smoke shutdown 12/12 PASS ללא מנהל. אין עדכון בעותק המשתמש או Defender.
+
+תוצר 0.1.5: C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.5-cwd-fix; ZIP אותו נתיב עם -win-x64.zip. App 180,848,692 בתים; ZIP 68,962,555 בתים; SHA-256 30D7E8FD8280F45AD16518F5D74C0F181E615678432D4FC5B85C79A943AACF8C. שימור הגרסאות הקודמות; אין תג או Release 0.1.5/0.1.6 לפני תחילת הפרסום.
+
+כהמשך למשימת זוג ההפצות ולדיווח הכשל, יפורסם זוג חדש: 0.1.5 התחלה עם helper מתוקן, 0.1.6 יעד זהה מלבד הגרסה. build/tests/package/validation/smoke ליעד לפני פרסום, metadata ראשונה לפני שנייה ו־workflows לשתיהן. בדיקת עדכון ידנית 0.1.5 -> 0.1.6 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש. אין מעבר בין השתיים על ידי הסוכן. ההיקף החדש גובר על סעיף התכנון המקומי הראשוני להלן; אישור הפרסום הקיים נשמר.
+
 ## שתי ההפצות הושלמו — 29.9.2026
 
 0.1.3 היא גרסת ההתחלה; 0.1.4 היא יעד העדכון. שתיהן פורסמו ב־GitHub עם assets וגיבובים כמפורט להלן. [בנייה 0.1.3](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36512982423), [metadata 0.1.3](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36513125775), [בנייה 0.1.4](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36514420387), [metadata 0.1.4](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36514437740): **PASS** בפועל. ה־workflows לא החליפו את נכסי המסירה המקומיים שהועלו. raw/main/version.json נקרא ב־HTTP בלבד ואומת: latest_version=0.1.4, כתובת ZIP תחת v0.1.4 ו־SHA-256 3D44F9C4651D62DCB9854D2B61BD395A8139288C5449613981022C4F90FEDE87. main סונכרן עם commit הבוט e9fef8b. כל 22 הקישורים המקומיים בתיעוד תקינים ו־git diff --check עבר.

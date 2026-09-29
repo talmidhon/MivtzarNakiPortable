@@ -61,7 +61,9 @@ foreach ($scenario in @('success','rollback','session')) {
         $sourceZip = Join-Path $root 'source.zip'
         Copy-Item -LiteralPath $candidate -Destination $sourceZip
         $arguments = @('--exercise-update', ('"' + $sourceZip + '"'), $hash)
-        $process = Start-Process -FilePath $target -ArgumentList $arguments -WorkingDirectory $env:WINDIR -WindowStyle Hidden -PassThru
+        # Regression: Explorer can start the parent with App as its cwd.
+        # The external helper must select its own cwd, not inherit this one.
+        $process = Start-Process -FilePath $target -ArgumentList $arguments -WorkingDirectory (Join-Path $root 'App') -WindowStyle Hidden -PassThru
     } else {
         $process = Start-Process -FilePath (Join-Path $helper 'MivtzarNaki.exe') -ArgumentList $arguments -WorkingDirectory $env:WINDIR -WindowStyle Hidden -PassThru
     }
