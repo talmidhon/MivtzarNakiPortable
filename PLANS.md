@@ -1,5 +1,13 @@
 # תוכנית העבודה לקודקס
 
+## תיקון cwd פורסם: 0.1.5 התחלה, 0.1.6 יעד — 29.9.2026
+
+[Release v0.1.5](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.5), תג 27e3f71; [Release v0.1.6](https://github.com/talmidhon/MivtzarNakiPortable/releases/tag/v0.1.6), תג 75ca593. לכל אחת נכסי MivtzarNaki-win-x64.zip ו־SHA256SUMS.txt. ה־digests הציבוריים תואמים ל־ZIP המקומיים המתועדים להלן. [build 0.1.5](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36561197018), [metadata 0.1.5](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36561303888), [build 0.1.6](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36561639348), [metadata 0.1.6](https://github.com/talmidhon/MivtzarNakiPortable/actions/runs/36561641572): **PASS בפועל**. הבנייה ב־CI לא דרסה נכסים מקומיים שהועלו. raw/main/version.json נבדק ב־HTTP בלבד: latest_version=0.1.6, download_url תחת v0.1.6 ו־SHA-256 3D1C1ED6A2E28DD3CFE7D97CC2A6F4B173E360EE6A1518081D09065327E3A313. main סונכרן עם commit הבוט c89db6f. 22 קישורי התיעוד המקומיים ו־git diff --check תקינים. אין credentials או נתוני משתמש בנכסי GitHub; רק App מלאה ו־checksum, בלי Defender.
+
+הבדיקה הקודמת 0.1.3 -> 0.1.4 היא FAIL לפי צילום והלוג. התיקון הקודם לא מנע נעילת תיקיית App על ידי cwd של helper; זו נקודה שהבדיקות הישנות מ־Windows לא כיסו. כעת session regression מתחיל במפורש עם cwd App ועבר. שחזור Windows המבודד מוכיח את מנגנון הנעילה, אך הלוג של כשל המשתמש אינו מתעד cwd עצמו ולכן אין טענה שנמדדה תיקיית העבודה של helper המקורי.
+
+יש להתחיל מבינריים מתוקנים: הורדת ZIP מתוך Release 0.1.5 וחילוץ לתיקייה חדשה. עותק מקומי: C:\Users\admin\Documents\ChatGPT\מבצר נקי 2\artifacts\MivtzarNaki-0.1.5-cwd-fix\App\MivtzarNaki.exe. יעד העדכון הוא 0.1.6. הגרסאות 0.1.3 ו־0.1.4 נשמרו; ה־ZIP שלהן אומתו ללא שינוי. כל 456 גיבובי App בעותק המשתמש C:\Users\admin\Downloads\App אומתו עדיין מול מניפסט 0.1.3. לא הופעל או עודכן עותק המשתמש, לא הורץ helper אחרי הפרסום ולא בוצעה פעולת Defender. **בדיקת עדכון ידנית 0.1.5 -> 0.1.6 דרך ממשק המשתמש: PENDING / ממתינה לבדיקת המשתמש.** אין PASS למעבר חי זה או לקבלה חיצונית חדשה, מחשב נקי/USB/offline/Defender או בדיקה חזותית מלאה.
+
 ### יעד הבדיקה החדש — 0.1.6
 
 build ללא אזהרות/שגיאות; dotnet test tests/MivtzarNaki.Tests/MivtzarNaki.Tests.csproj --nologo: 55/55 PASS. Package.ps1 -Output artifacts/MivtzarNaki-0.1.6-delivery ו־ValidatePackage.ps1 על אותה תיקייה: 457/457 PASS. Smoke.ps1 -Folder artifacts/MivtzarNaki-0.1.6-delivery -UpdateShutdown: 12/12 PASS ללא מנהל (דוח smoke-MivtzarNaki-0.1.6-delivery-update-shutdown.json). תיקיית Data שנוצרה הועברה ל־artifacts/smoke-0.1.6-data.
