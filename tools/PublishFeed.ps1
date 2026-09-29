@@ -1,4 +1,4 @@
-param([Parameter(Mandatory=$true)][string]$Tag,[string]$Repository='talmidhon/MivtzarNakiPortable')
+﻿param([Parameter(Mandatory=$true)][string]$Tag,[string]$Repository='talmidhon/MivtzarNakiPortable')
 $ErrorActionPreference='Stop'
 if($Repository -ne 'talmidhon/MivtzarNakiPortable' -or $Tag -notmatch '^v\d+\.\d+\.\d+$') { throw 'Unexpected repository/tag' }
 $release=gh api "repos/$Repository/releases/tags/$Tag" | ConvertFrom-Json
